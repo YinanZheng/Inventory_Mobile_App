@@ -9,7 +9,7 @@ ui <- f7Page(
       shadow = TRUE
     ),
     
-    # 将所有 f7Tab 子组件包装在 list() 中
+    # 将所有 f7Tab 子组件包装在 list() 中，避免内部类型检查错误
     f7Tabs(
       animated = TRUE,
       list(
@@ -27,14 +27,12 @@ ui <- f7Page(
             br(),
             f7Button("search_item", "🔎 查询", color = "green", fill = TRUE),
             br(),
-            # 输出物品详细信息（图片、表格）
-            uiOutput("query_item_info"),
-            # 输出库存状态图表
-            plotlyOutput("inventory_status_chart")
+            # 用于展示物品详细信息（图片和表格）
+            uiOutput("query_item_info")
           )
         ),
         
-        # 订单搜索页面（此处内容暂未整合具体查询逻辑）
+        # 订单搜索页面（示例中未整合查询逻辑，可根据需要扩展）
         f7Tab(
           tabName = "订单搜索",
           icon = f7Icon("cart", color = "red"),
