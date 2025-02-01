@@ -25,7 +25,7 @@ ui <- f7Page(
           style = "position: fixed; top: 40px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 10px; border-bottom: 1px solid #ccc;",
           f7BlockTitle("商品搜索"),
           f7Block(
-            strong = FALSE,  # 取消默认内边距
+            strong = TRUE,  # 取消默认内边距
             inset = TRUE,    # 让内容更加紧凑
             f7Row(
               f7Col(
