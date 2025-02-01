@@ -2,7 +2,7 @@ ui <- f7Page(
   title = "库存管理系统（移动端）",
   options = list(dark = FALSE),
   
-  # 使用 f7TabLayout 带有底部导航栏
+  # 使用 f7TabLayout 构建带有底部导航栏的布局
   f7TabLayout(
     navbar = f7Navbar(
       title = "库存管理系统",
@@ -10,27 +10,25 @@ ui <- f7Page(
       shadow = TRUE
     ),
     
-    # 添加 id="tabs" 让 f7TabLink 可以控制 f7Tabs
+    # 使用 id = "tabs" 让 f7TabLink 控制 f7Tabs
     f7Tabs(
       id = "tabs",
       swipeable = FALSE,
       animated = TRUE,
       
-      # 商品搜索页面
+      # 商品搜索 tab
       f7Tab(
         tabName = "商品搜索",
         icon = f7Icon("search"),
         active = TRUE,
-        
-        # 将搜索框从固定定位改为粘性定位，
-        # 这样它会在页面内固定在距离顶部 40px 的位置，但不会覆盖底部导航栏
+        # 用 flex 布局构建整个页面区域，高度设为 100vh（全屏）
         div(
-          style = "position: sticky; top: 40px; z-index: 500; background-color: #f7f7f8; padding: 10px; border-bottom: 1px solid #ccc;",
-          f7BlockTitle("商品搜索"),
-          f7Block(
-            strong = FALSE,
-            inset = FALSE,
-            style = "padding: 0; margin: 0;",
+          style = "display: flex; flex-direction: column; height: 100vh; overflow: hidden;",
+          
+          # 搜索区域：固定在上方（不采用 fixed 定位，而是作为 flex 子元素）
+          div(
+            style = "padding: 10px; border-bottom: 1px solid #ccc;",
+            f7BlockTitle("商品搜索"),
             div(
               style = "display: flex; align-items: center; justify-content: space-between;",
               div(
@@ -51,17 +49,17 @@ ui <- f7Page(
                 )
               )
             )
+          ),
+          
+          # 搜索结果区域：设置 flex:1 填满剩余空间，且加上 bottom padding 避免内容覆盖底部工具栏
+          div(
+            style = "flex: 1; overflow-y: auto; padding: 10px; padding-bottom: 60px;",
+            uiOutput("search_results")
           )
-        ),
-        
-        # 搜索结果区域，注意这里根据页面内容高度设置了合适的高度
-        div(
-          style = "padding: 10px; overflow-y: auto; height: calc(100vh - 150px);",
-          uiOutput("search_results")
         )
       ),
       
-      # 订单查询页面
+      # 订单查询 tab
       f7Tab(
         tabName = "订单查询",
         icon = f7Icon("cart"),
@@ -74,10 +72,11 @@ ui <- f7Page(
       )
     ),
     
-    # 底部导航栏，使用正确的 tab 名称
+    # 底部导航栏（注意增加了 z-index，确保始终在最上层）
     f7Toolbar(
       position = "bottom",
       icons = TRUE,
+      style = "z-index: 9999;",
       f7TabLink(tab = "商品搜索", icon = f7Icon("search"), label = "商品"),
       f7TabLink(tab = "订单查询", icon = f7Icon("cart"), label = "订单")
     )
