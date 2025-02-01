@@ -25,32 +25,36 @@ ui <- f7Page(
           strong = TRUE,
           inset = TRUE,
           div(
-            style = "display: flex; flex-wrap: wrap; justify-content: space-around;",
+            style = "display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;",
             
             # 物品搜索图标
             div(
-              style = "text-align: center; margin: 10px;",
-              f7Button(
-                inputId = "go_to_search",  # 点击按钮触发事件
-                label = NULL,
-                icon = f7Icon("search"),
-                color = "blue",
-                fill = TRUE,
-                style = "font-size: 36px; padding: 20px; height: auto;"
+              style = "text-align: center;",
+              div(
+                style = "width: 80px; height: 80px; display: flex; justify-content: center; align-items: center; border-radius: 10px; background-color: #007BFF; color: #fff;",
+                f7Button(
+                  inputId = "go_to_search",  # 点击按钮触发事件
+                  label = NULL,
+                  icon = f7Icon("search"),
+                  fill = TRUE,
+                  color = NULL  # 使用自定义颜色
+                )
               ),
               div(style = "margin-top: 5px;", "物品搜索")
             ),
             
-            # 其他功能图标（可扩展）
+            # 其他功能图标（占位）
             div(
-              style = "text-align: center; margin: 10px;",
-              f7Button(
-                inputId = "go_to_other",  # 其他功能按钮
-                label = NULL,
-                icon = f7Icon("cube_box"),
-                color = "blue",
-                fill = TRUE,
-                style = "font-size: 36px; padding: 20px; height: auto;"
+              style = "text-align: center;",
+              div(
+                style = "width: 80px; height: 80px; display: flex; justify-content: center; align-items: center; border-radius: 10px; background-color: #007BFF; color: #fff;",
+                f7Button(
+                  inputId = "go_to_other",  # 其他功能按钮
+                  label = NULL,
+                  icon = f7Icon("cube_box"),
+                  fill = TRUE,
+                  color = NULL
+                )
               ),
               div(style = "margin-top: 5px;", "其他功能")
             )
