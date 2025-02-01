@@ -10,7 +10,7 @@ ui <- f7Page(
     ),
     
     f7Tabs(
-      animated = TRUE,  # 只使用动画，避免冲突
+      animated = TRUE,
       
       # 主页
       f7Tab(
@@ -28,17 +28,14 @@ ui <- f7Page(
             # 物品搜索按钮
             div(
               style = "text-align: center;",
-              div(
-                style = "width: 80px; height: 80px; display: flex; justify-content: center; align-items: center; background-color: #007BFF; border-radius: 10px;",
-                f7Button(
-                  inputId = "go_to_search",
-                  label = NULL,
-                  icon = f7Icon("search"),
-                  fill = TRUE,
-                  color = NULL  # 自定义背景色，不用默认颜色
-                )
+              f7Link(
+                inputId = "go_to_search",
+                label = NULL,
+                href = "#",  # 让链接生效
+                icon = f7Icon("search"),
+                style = "font-size: 36px; color: #007BFF;"
               ),
-              div(style = "margin-top: 5px; font-size: 14px; color: #333;", "物品搜索")
+              div(style = "margin-top: 5px;", "物品搜索")
             )
           )
         )
