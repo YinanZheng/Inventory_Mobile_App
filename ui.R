@@ -2,7 +2,7 @@ ui <- f7Page(
   title = "库存管理系统（移动端）",
   options = list(dark = FALSE),
   
-  # 主页面布局
+  # 主页 + 物品搜索等功能分页
   f7TabLayout(
     navbar = f7Navbar(
       title = "库存管理系统（移动端）",
@@ -10,51 +10,49 @@ ui <- f7Page(
       shadow = TRUE
     ),
     
-    # 主页面选项卡
+    # 选项卡
     f7Tabs(
-      animated = TRUE,
+      animated = TRUE,  # 添加动画切换
+      swipeable = TRUE, # 允许手势滑动切换
       
-      # 首页功能图标
+      # 主页
       f7Tab(
         tabName = "主页",
-        icon = f7Icon("home"),
-        active = TRUE,
+        icon = f7Icon("house_fill"),  # 使用房屋图标表示首页
+        active = TRUE,  # 默认进入主页
         
         f7Block(
           title = "功能选择",
           strong = TRUE,
           inset = TRUE,
+          
           div(
-            style = "display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;",
+            style = "display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px; padding: 10px;",
             
             # 物品搜索图标
             div(
               style = "text-align: center;",
-              div(
-                style = "width: 80px; height: 80px; display: flex; justify-content: center; align-items: center; border-radius: 10px; background-color: #007BFF; color: #fff;",
-                f7Button(
-                  inputId = "go_to_search",  # 点击按钮触发事件
-                  label = NULL,
-                  icon = f7Icon("search"),
-                  fill = TRUE,
-                  color = NULL  # 使用自定义颜色
-                )
+              f7Button(
+                inputId = "go_to_search",  # 绑定事件以切换分页
+                label = NULL,
+                icon = f7Icon("search"),
+                color = "blue",
+                fill = TRUE,
+                style = "width: 80px; height: 80px; font-size: 20px;"
               ),
               div(style = "margin-top: 5px;", "物品搜索")
             ),
             
-            # 其他功能图标（占位）
+            # 其他功能（示例）
             div(
               style = "text-align: center;",
-              div(
-                style = "width: 80px; height: 80px; display: flex; justify-content: center; align-items: center; border-radius: 10px; background-color: #007BFF; color: #fff;",
-                f7Button(
-                  inputId = "go_to_other",  # 其他功能按钮
-                  label = NULL,
-                  icon = f7Icon("cube_box"),
-                  fill = TRUE,
-                  color = NULL
-                )
+              f7Button(
+                inputId = "go_to_other",  
+                label = NULL,
+                icon = f7Icon("cube_box"),
+                color = "blue",
+                fill = TRUE,
+                style = "width: 80px; height: 80px; font-size: 20px;"
               ),
               div(style = "margin-top: 5px;", "其他功能")
             )
@@ -68,9 +66,9 @@ ui <- f7Page(
         icon = f7Icon("search"),
         active = FALSE,
         
-        # 固定搜索框
+        # 搜索框
         div(
-          style = "position: fixed; top: 50px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 10px 10px 5px; border-bottom: 1px solid #ccc;",
+          style = "position: fixed; top: 50px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 10px; border-bottom: 1px solid #ccc;",
           f7Block(
             strong = FALSE,
             inset = FALSE,
