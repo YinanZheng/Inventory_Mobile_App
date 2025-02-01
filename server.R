@@ -31,7 +31,7 @@ server <- function(input, output, session) {
         paste0(host_url, "/images/", basename(sku_data$ItemImagePath[1]))
       )
       
-      # 从 unique_items_data() 中计算额外信息（确保 unique_items_data() 已定义）
+      # 计算库存统计信息，确保 unique_items_data() 已定义且返回包含 Status 字段的数据
       sku_stats <- unique_items_data() %>%
         filter(SKU == input$search_sku) %>%
         summarise(
@@ -51,36 +51,16 @@ server <- function(input, output, session) {
           style = "width: 100%; padding-left: 10px;",
           tags$table(
             style = "width: 100%; border-collapse: collapse;",
-            tags$tr(
-              tags$td(tags$b("商品名称：")), tags$td(sku_data$ItemName[1])
-            ),
-            tags$tr(
-              tags$td(tags$b("供应商：")), tags$td(sku_data$Maker[1])
-            ),
-            tags$tr(
-              tags$td(tags$b("分类：")), tags$td(paste(sku_data$MajorType[1], "/", sku_data$MinorType[1]))
-            ),
-            tags$tr(
-              tags$td(tags$b("平均成本：")), tags$td(sprintf("¥%.2f", sku_data$ProductCost[1]))
-            ),
-            tags$tr(
-              tags$td(tags$b("平均运费：")), tags$td(sprintf("¥%.2f", sku_data$ShippingCost[1]))
-            ),
-            tags$tr(
-              tags$td(tags$b("国内库存数：")), tags$td(sku_stats$国内库存数)
-            ),
-            tags$tr(
-              tags$td(tags$b("在途库存数：")), tags$td(sku_stats$在途库存数)
-            ),
-            tags$tr(
-              tags$td(tags$b("美国库存数：")), tags$td(sku_stats$美国库存数)
-            ),
-            tags$tr(
-              tags$td(tags$b("已售库存数：")), tags$td(sku_stats$已售库存数)
-            ),
-            tags$tr(
-              tags$td(tags$b("总库存数：")), tags$td(sku_data$Quantity[1])
-            )
+            tags$tr(tags$td(tags$b("商品名称：")), tags$td(sku_data$ItemName[1])),
+            tags$tr(tags$td(tags$b("供应商：")), tags$td(sku_data$Maker[1])),
+            tags$tr(tags$td(tags$b("分类：")), tags$td(paste(sku_data$MajorType[1], "/", sku_data$MinorType[1]))),
+            tags$tr(tags$td(tags$b("平均成本：")), tags$td(sprintf("¥%.2f", sku_data$ProductCost[1]))),
+            tags$tr(tags$td(tags$b("平均运费：")), tags$td(sprintf("¥%.2f", sku_data$ShippingCost[1]))),
+            tags$tr(tags$td(tags$b("国内库存数：")), tags$td(sku_stats$国内库存数)),
+            tags$tr(tags$td(tags$b("在途库存数：")), tags$td(sku_stats$在途库存数)),
+            tags$tr(tags$td(tags$b("美国库存数：")), tags$td(sku_stats$美国库存数)),
+            tags$tr(tags$td(tags$b("已售库存数：")), tags$td(sku_stats$已售库存数)),
+            tags$tr(tags$td(tags$b("总库存数：")), tags$td(sku_data$Quantity[1]))
           )
         )
       )
@@ -105,7 +85,7 @@ server <- function(input, output, session) {
         status_levels <- c("采购", "国内入库", "国内售出", "国内出库", "美国入库", "美国调货", "美国发货", "退货")
         status_colors <- c("lightgray", "#c7e89b", "#9ca695", "#46a80d", "#6f52ff", "#529aff", "#faf0d4", "red")
         
-        # 确保数据按照固定类别顺序排列，并补全缺失类别
+        # 补全缺失的类别，并按照 status_levels 排序
         inventory_status_data <- merge(
           data.frame(Status = status_levels),
           inventory_status_data,
@@ -113,7 +93,6 @@ server <- function(input, output, session) {
           all.x = TRUE
         )
         inventory_status_data$Count[is.na(inventory_status_data$Count)] <- 0
-        
         inventory_status_data <- inventory_status_data[match(status_levels, inventory_status_data$Status), ]
         
         if (sum(inventory_status_data$Count) == 0) {
@@ -144,6 +123,6 @@ server <- function(input, output, session) {
     
   })
   
-  # 订单搜索逻辑（可按需要补充）
+  # 订单搜索逻辑（如有需要，可在此补充）
   
 }
