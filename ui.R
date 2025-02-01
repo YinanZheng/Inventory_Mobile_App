@@ -23,7 +23,7 @@ ui <- f7Page(
         active = TRUE,
 
         div(
-          style = "position: sticky; top: 40px; z-index: 500; background-color: #f7f7f8; padding: 10px; border-bottom: 1px solid #ccc;",
+          style = "position: sticky; top: 20px; z-index: 500; background-color: #f7f7f8; padding: 10px; border-bottom: 1px solid #ccc;",
           f7BlockTitle("商品搜索"),
           f7Block(
             strong = FALSE,
