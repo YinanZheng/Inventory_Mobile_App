@@ -12,8 +12,7 @@ ui <- f7Page(
     
     # 主页面选项卡
     f7Tabs(
-      animated = TRUE,
-      swipeable = TRUE,
+      animated = TRUE,  # 保留动画效果，去掉 swipeable
       
       # 首页功能图标
       f7Tab(
@@ -35,7 +34,7 @@ ui <- f7Page(
                 label = NULL,
                 href = "#search",  # 跳转到物品搜索页面
                 icon = f7Icon("search"),
-                style = "font-size: 36px; color: #007BFF;"  # 图标样式
+                style = "font-size: 36px; color: #007BFF;"
               ),
               div(style = "margin-top: 5px;", "物品搜索")
             ),
