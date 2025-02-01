@@ -25,24 +25,19 @@ ui <- f7Page(
           style = "position: fixed; top: 40px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 10px; border-bottom: 1px solid #ccc;",
           f7BlockTitle("商品搜索"),
           f7Block(
-            strong = FALSE,
-            inset = FALSE,
-            style = "padding: 0; margin: 0;",
-            
-            div(
-              style = "display: flex; align-items: center; justify-content: space-between;",
-              
-              div(
-                style = "flex: 2; margin-right: 10px;",
+            strong = FALSE,  # 取消默认内边距
+            inset = TRUE,    # 让内容更加紧凑
+            f7Row(
+              f7Col(
+                width = 8,
                 f7Text(
                   inputId = "search_sku",
-                  label = NULL,
-                  placeholder = "输入 SKU 或 物品名..."
+                  label = NULL,  # 移除 label，减少高度
+                  placeholder = "输入 SKU / 物品名..."
                 )
               ),
-              
-              div(
-                style = "flex: 1;",
+              f7Col(
+                width = 4,
                 f7Button(
                   inputId = "search_btn",
                   label = "查询",
