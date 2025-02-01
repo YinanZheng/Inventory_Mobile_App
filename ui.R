@@ -11,31 +11,25 @@ ui <- f7Page(
     
     # 搜索框
     f7Block(
-      strong = FALSE,
-      inset = FALSE,
-      style = "padding: 0; margin: 0;",
-      
+      strong = TRUE,
+      inset = TRUE,
       div(
-        style = "display: flex; align-items: center; justify-content: space-between; padding: 5px 5px;",
-        
-        # 输入框
+        style = "border: 1px solid #ccc; border-radius: 8px; padding: 10px; background-color: #fff;",
+        f7Text(
+          inputId = "search_sku",
+          label = NULL,
+          placeholder = "输入 SKU 或 物品名..."
+        )
+      ),
+      div(
+        style = "margin-top: 10px; text-align: center;",
         div(
-          style = "flex: 2; margin-right: 10px; border: 1px solid #ccc; border-radius: 4px; padding: 5px; background-color: #fff;",
-          f7Text(
-            inputId = "search_sku",
-            label = NULL,
-            placeholder = "输入 SKU 或 物品名..."
-          )
-        ),
-        
-        # 查询按钮
-        div(
-          style = "flex: 1;",
+          style = "width: 100%; max-width: 300px; margin: 0 auto;",  # 限制按钮宽度，不会太大
           f7Button(
             inputId = "search_btn",
             label = "查询",
             color = "blue",
-            fill = TRUE
+            fill = TRUE  # 让按钮充满父容器
           )
         )
       )
