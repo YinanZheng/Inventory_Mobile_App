@@ -25,15 +25,17 @@ ui <- f7Page(
           style = "position: fixed; top: 40px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 10px; border-bottom: 1px solid #ccc;",
           f7BlockTitle("商品搜索"),
           f7Block(
-            strong = TRUE,  # 取消默认内边距
-            inset = TRUE,    # 让内容更加紧凑
+            strong = FALSE,  # 减少内边距
+            inset = FALSE,   # 去掉块状的缩进
             f7Row(
+              align = "center",  # 对齐到一行
               f7Col(
                 width = 8,
                 f7Text(
                   inputId = "search_sku",
-                  label = NULL,  # 移除 label，减少高度
-                  placeholder = "输入 SKU / 物品名..."
+                  label = NULL,  # 移除标签，节省高度
+                  placeholder = "输入 SKU / 物品名...",
+                  clearButton = TRUE  # 增加清除按钮，提升交互体验
                 )
               ),
               f7Col(
@@ -42,7 +44,8 @@ ui <- f7Page(
                   inputId = "search_btn",
                   label = "查询",
                   color = "blue",
-                  fill = TRUE
+                  fill = TRUE,
+                  size = "small"  # 使用较小按钮
                 )
               )
             )
