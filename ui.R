@@ -78,8 +78,8 @@ ui <- f7Page(
     f7Toolbar(
       position = "bottom",
       icons = TRUE,
-      f7Link(tab = "物品搜索", icon = f7Icon("search"), label = "商品"),
-      f7Link(tab = "订单查询", icon = f7Icon("cart"), label = "订单"),
+      f7Link(label = "商品", href = "#tab-商品搜索", icon = f7Icon("search")),
+      f7Link(label = "订单", href = "#tab-订单查询", icon = f7Icon("cart"))
     )
   )
 )
