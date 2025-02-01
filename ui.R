@@ -11,16 +11,16 @@ ui <- f7Page(
     
     # 搜索框
     f7Block(
-      strong = FALSE,  # 不需要强调样式
-      inset = FALSE,  # 不嵌入边距
-      style = "padding: 0; margin: 0;",  # 移除默认内外边距
+      strong = FALSE,
+      inset = FALSE,
+      style = "padding: 0; margin: 0;",
       
       div(
         style = "display: flex; align-items: center; justify-content: space-between; padding: 5px 10px;",
         
         # 输入框
         div(
-          style = "flex: 2; margin-right: 10px;",  # 输入框占较大空间，右边留出间隙
+          style = "flex: 2; margin-right: 10px; border: 1px solid #ccc; border-radius: 4px; padding: 5px; background-color: #fff;",
           f7Text(
             inputId = "search_sku",
             label = NULL,
@@ -30,12 +30,12 @@ ui <- f7Page(
         
         # 查询按钮
         div(
-          style = "flex: 1;",  # 按钮占较小空间
+          style = "flex: 1;",
           f7Button(
             inputId = "search_btn",
             label = "查询",
             color = "blue",
-            fill = TRUE  # 按钮充满父容器
+            fill = TRUE
           )
         )
       )
