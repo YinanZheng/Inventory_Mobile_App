@@ -1,29 +1,8 @@
 server <- function(input, output, session) {
   source("global.R", local = TRUE)
   
-  # Database 连接（请确保 global.R 中 db_connection() 正确）
+  # 获取数据库连接（请确保 global.R 中 db_connection() 正常工作）
   con <- db_connection()
-  
-  # 初始化 modal 关闭状态，避免加载时报错
-  observe({
-    if (is.null(input$imageModal)) {
-      updateF7Sheet(session, id = "imageModal", sheetState = list(opened = FALSE))
-    }
-  })
-  
-  # 监听关闭 modal 按钮事件
-  observeEvent(input$close_modal, {
-    updateF7Sheet(session, id = "imageModal", sheetState = list(opened = FALSE))
-  })
-  
-  # 监听 JS 传来的 modal 状态
-  observeEvent(input$imageModal, {
-    if (!is.null(input$imageModal) && is.list(input$imageModal) && input$imageModal$open) {
-      updateF7Sheet(session, id = "imageModal", sheetState = list(opened = TRUE))
-    } else {
-      updateF7Sheet(session, id = "imageModal", sheetState = list(opened = FALSE))
-    }
-  })
   
   # 📦 物品搜索逻辑
   observeEvent(input$search_item, {
@@ -41,7 +20,9 @@ server <- function(input, output, session) {
     sku_data <- dbGetQuery(con, query)
     
     if (nrow(sku_data) == 0) {
-      output$item_result <- renderUI(tags$p("未找到该物品", style = "color: red;"))
+      output$item_result <- renderUI(
+        tags$p("未找到该物品", style = "color: red;")
+      )
       return()
     }
     
@@ -54,24 +35,39 @@ server <- function(input, output, session) {
     output$item_result <- renderUI({
       div(
         style = "display: flex; flex-direction: column; align-items: center; padding: 10px;",
+        # 直接显示图片，不再包装点击事件
         div(
           style = "text-align: center; margin-bottom: 10px;",
-          tags$a(
-            href = "#",
-            onclick = paste0("showImageModal('", img_path, "')"),
-            tags$img(src = img_path, height = "150px", style = "border: 1px solid #ddd; border-radius: 8px;")
-          )
+          tags$img(src = img_path, height = "150px", style = "border: 1px solid #ddd; border-radius: 8px;")
         ),
         div(
           style = "width: 100%; padding-left: 10px;",
           tags$table(
             style = "width: 100%; border-collapse: collapse;",
-            tags$tr(tags$td(tags$b("商品名称：")), tags$td(sku_data$ItemName[1])),
-            tags$tr(tags$td(tags$b("供应商：")), tags$td(sku_data$Maker[1])),
-            tags$tr(tags$td(tags$b("分类：")), tags$td(paste(sku_data$MajorType[1], "/", sku_data$MinorType[1]))),
-            tags$tr(tags$td(tags$b("平均成本：")), tags$td(sprintf("¥%.2f", sku_data$ProductCost[1]))),
-            tags$tr(tags$td(tags$b("平均运费：")), tags$td(sprintf("¥%.2f", sku_data$ShippingCost[1]))),
-            tags$tr(tags$td(tags$b("库存总数：")), tags$td(sku_data$Quantity[1]))
+            tags$tr(
+              tags$td(tags$b("商品名称：")),
+              tags$td(sku_data$ItemName[1])
+            ),
+            tags$tr(
+              tags$td(tags$b("供应商：")),
+              tags$td(sku_data$Maker[1])
+            ),
+            tags$tr(
+              tags$td(tags$b("分类：")),
+              tags$td(paste(sku_data$MajorType[1], "/", sku_data$MinorType[1]))
+            ),
+            tags$tr(
+              tags$td(tags$b("平均成本：")),
+              tags$td(sprintf("¥%.2f", sku_data$ProductCost[1]))
+            ),
+            tags$tr(
+              tags$td(tags$b("平均运费：")),
+              tags$td(sprintf("¥%.2f", sku_data$ShippingCost[1]))
+            ),
+            tags$tr(
+              tags$td(tags$b("库存总数：")),
+              tags$td(sku_data$Quantity[1])
+            )
           )
         )
       )
@@ -97,7 +93,9 @@ server <- function(input, output, session) {
     })
     
     if (is.null(result) || nrow(result) == 0) {
-      output$order_result <- renderUI(tags$p("未找到该订单", style = "color: red;"))
+      output$order_result <- renderUI(
+        tags$p("未找到该订单", style = "color: red;")
+      )
       return()
     }
     
@@ -114,14 +112,21 @@ server <- function(input, output, session) {
             title = paste("订单号:", result$OrderID[i]),
             f7Block(
               f7Row(
-                f7Col(width = 4, 
-                      tags$a(tags$img(src = order_img_path, width = "100%", onclick = paste0("showImageModal('", order_img_path, "')")))),  
-                f7Col(width = 8, 
-                      tags$p(paste("物流单号:", result$UsTrackingNumber[i])),
-                      tags$p(paste("顾客:", result$CustomerName[i])),
-                      tags$p(paste("平台:", result$Platform[i])),
-                      tags$p(paste("状态:", result$OrderStatus[i])),
-                      tags$p(paste("备注:", ifelse(is.na(result$OrderNotes[i]) || result$OrderNotes[i] == "", "无", result$OrderNotes[i]))))
+                f7Col(
+                  width = 4, 
+                  # 直接显示图片，无点击事件
+                  tags$img(src = order_img_path, width = "100%")
+                ),  
+                f7Col(
+                  width = 8, 
+                  tags$p(paste("物流单号:", result$UsTrackingNumber[i])),
+                  tags$p(paste("顾客:", result$CustomerName[i])),
+                  tags$p(paste("平台:", result$Platform[i])),
+                  tags$p(paste("状态:", result$OrderStatus[i])),
+                  tags$p(paste("备注:", 
+                               ifelse(is.na(result$OrderNotes[i]) || result$OrderNotes[i] == "", "无", result$OrderNotes[i])
+                  ))
+                )
               )
             )
           )

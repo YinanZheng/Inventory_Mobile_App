@@ -2,18 +2,6 @@ ui <- f7Page(
   title = "库存 & 订单查询",
   allowPWA = TRUE,
   
-  tags$script(HTML("
-    function showImageModal(src) {
-      document.getElementById('modalImage').src = src;
-      // 注意这里仍然传递 open ，因为我们在服务器端进行判断
-      Shiny.setInputValue('imageModal', { open: true }, { priority: 'event' });
-    }
-  
-    function closeImageModal() {
-      Shiny.setInputValue('imageModal', { open: false }, { priority: 'event' });
-    }
-  ")),
-  
   f7TabLayout(
     navbar = f7Navbar(
       title = "📦 库存 & 订单查询",
@@ -58,19 +46,6 @@ ui <- f7Page(
           uiOutput("order_result")
         )
       )
-    )
-  ),
-  
-  # 📸 图片查看 modal
-  f7Sheet(
-    id = "imageModal",
-    title = "图片预览",
-    swipeToClose = TRUE,
-    backdrop = TRUE,
-    f7Block(
-      tags$img(id = "modalImage", src = "", style = "width:100%; border-radius: 8px;"),
-      br(),
-      f7Button("close_modal", "关闭", color = "red", fill = TRUE)
     )
   )
 )
