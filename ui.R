@@ -34,8 +34,7 @@ ui <- f7Page(
                 f7Text(
                   inputId = "search_sku",
                   label = NULL,  # 移除标签，节省高度
-                  placeholder = "输入 SKU / 物品名...",
-                  clearButton = TRUE  # 增加清除按钮，提升交互体验
+                  placeholder = "输入 SKU / 物品名..."
                 )
               ),
               f7Col(
