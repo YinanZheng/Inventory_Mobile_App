@@ -14,10 +14,10 @@ ui <- f7Page(
       strong = TRUE,
       inset = TRUE,
       div(
-        style = "border: 1px solid #ccc; border-radius: 8px; padding: 10px; background-color: #fff;",
+        style = "border: 1px solid #ccc; border-radius: 8px; padding: 5px; background-color: #fff;",
         f7Text(
           inputId = "search_sku",
-          label = "SKU / 物品名",
+          label = "",
           placeholder = "输入 SKU 或 物品名..."
         )
       ),
