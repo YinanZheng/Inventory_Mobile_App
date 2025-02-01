@@ -17,7 +17,7 @@ ui <- f7Page(
         style = "border: 1px solid #ccc; border-radius: 8px; padding: 10px; background-color: #fff;",
         f7Text(
           inputId = "search_sku",
-          label = "SKU / 物品名",
+          label = NULL,
           placeholder = "输入 SKU 或 物品名..."
         )
       ),

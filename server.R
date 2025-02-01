@@ -24,13 +24,13 @@ server <- function(input, output, session) {
       return()
     }
     
-    # 计算库存统计
+    # 计算库存统计（已修正 sum 逻辑）
     stock_summary <- result %>%
       group_by(SKU) %>%  
       summarise(
-        美国库存数 = sum(Status == "美国入库", na.rm = TRUE),
-        在途库存数 = sum(Status == "国内出库", na.rm = TRUE),
-        国内库存数 = sum(Status == "国内入库", na.rm = TRUE),
+        美国库存数 = sum(ifelse(Status == "美国入库", 1, 0), na.rm = TRUE),
+        在途库存数 = sum(ifelse(Status == "国内出库", 1, 0), na.rm = TRUE),
+        国内库存数 = sum(ifelse(Status == "国内入库", 1, 0), na.rm = TRUE),
         .groups = "drop"
       )
     
