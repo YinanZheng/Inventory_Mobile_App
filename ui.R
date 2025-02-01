@@ -22,7 +22,8 @@ ui <- f7Page(
         
         # 固定搜索框
         div(
-          style = "position: fixed; top: 40px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 10px; border-bottom: 1px solid #ccc;",
+          style = "position: fixed; top: 40px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 10px; border-bottom: 1px solid #ccc; display: flex; align-items: center; gap: 10px;",
+          
           div(
             style = "flex: 4;",  # 输入框占 80%
             f7Text(
@@ -31,6 +32,7 @@ ui <- f7Page(
               placeholder = "输入 SKU / 物品名..."
             )
           ),
+          
           div(
             style = "flex: 1;",  # 按钮占 20%
             f7Button(
