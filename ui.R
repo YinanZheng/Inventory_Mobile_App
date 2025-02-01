@@ -12,7 +12,7 @@ ui <- f7Page(
       Shiny.setInputValue('imageModal', { open: false }, { priority: 'event' });
     }
   ")),
-    
+  
   f7TabLayout(
     navbar = f7Navbar(
       title = "📦 库存 & 订单查询",

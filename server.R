@@ -7,21 +7,21 @@ server <- function(input, output, session) {
   # 初始化 modal 关闭状态，防止加载时报错
   observe({
     if (is.null(input$imageModal)) {
-      updateF7Sheet(session, id = "imageModal", session = session, sheetClose = TRUE)
+      updateF7Sheet(session, id = "imageModal", sheetState = list(open = FALSE))
     }
   })
   
   # 监听关闭 modal 事件
   observeEvent(input$close_modal, {
-    updateF7Sheet(session, id = "imageModal", session = session, sheetClose = TRUE)
+    updateF7Sheet(session, id = "imageModal", sheetState = list(open = FALSE))
   })
   
-  # 监听 modal 状态，确保 `updateF7Sheet()` 传递 `list`
+  # 监听 modal 状态，根据传递的 list 更新 sheet 的显示状态
   observeEvent(input$imageModal, {
     if (!is.null(input$imageModal) && is.list(input$imageModal) && input$imageModal$open) {
-      updateF7Sheet(session, id = "imageModal", session = session, sheetClose = FALSE)
+      updateF7Sheet(session, id = "imageModal", sheetState = list(open = TRUE))
     } else {
-      updateF7Sheet(session, id = "imageModal", session = session, sheetClose = TRUE)
+      updateF7Sheet(session, id = "imageModal", sheetState = list(open = FALSE))
     }
   })
   
