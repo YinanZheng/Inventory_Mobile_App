@@ -13,28 +13,16 @@ ui <- f7Page(
     # 主要功能页面
     f7Tabs(
       swipeable = TRUE,
-      
-      # 主页
+
+      # 商品搜索
       f7Tab(
-        tabName = "主页",
-        icon = f7Icon("house_fill"),
-        active = TRUE,
-        f7BlockTitle("欢迎使用库存管理系统"),
-        f7Block(
-          strong = TRUE,
-          inset = TRUE,
-          "请使用底部导航栏切换不同的功能"
-        )
-      ),
-      
-      # 物品搜索
-      f7Tab(
-        tabName = "物品搜索",
+        tabName = "商品搜索",
         icon = f7Icon("search"),
         
         # 固定搜索框
         div(
-          style = "position: fixed; top: 50px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 10px; border-bottom: 1px solid #ccc;",
+          style = "position: fixed; top: 40px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 10px; border-bottom: 1px solid #ccc;",
+          f7BlockTitle("商品搜索"),
           f7Block(
             strong = FALSE,
             inset = FALSE,
@@ -74,24 +62,13 @@ ui <- f7Page(
       
       # 其他功能（示例）
       f7Tab(
-        tabName = "订单管理",
+        tabName = "订单查询",
         icon = f7Icon("cart"),
-        f7BlockTitle("订单管理"),
+        f7BlockTitle("订单查询"),
         f7Block(
           strong = TRUE,
           inset = TRUE,
           "这里是订单管理页面"
-        )
-      ),
-      
-      f7Tab(
-        tabName = "库存统计",
-        icon = f7Icon("chart_bar"),
-        f7BlockTitle("库存统计"),
-        f7Block(
-          strong = TRUE,
-          inset = TRUE,
-          "这里是库存统计页面"
         )
       )
     ),
@@ -100,10 +77,8 @@ ui <- f7Page(
     f7Toolbar(
       position = "bottom",
       icons = TRUE,
-      f7Link(tab = "主页", icon = f7Icon("house_fill"), label = "主页"),
-      f7Link(tab = "物品搜索", icon = f7Icon("search"), label = "搜索"),
-      f7Link(tab = "订单管理", icon = f7Icon("cart"), label = "订单"),
-      f7Link(tab = "库存统计", icon = f7Icon("chart_bar"), label = "统计")
+      f7Link(tab = "物品搜索", icon = f7Icon("search"), label = "商品"),
+      f7Link(tab = "订单查询", icon = f7Icon("cart"), label = "订单"),
     )
   )
 )

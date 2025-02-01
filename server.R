@@ -1,16 +1,6 @@
 server <- function(input, output, session) {
   con <- db_connection()  # 连接数据库
   
-  # 监听主页图标，切换到物品搜索页面
-  observeEvent(input$go_to_search, {
-    updateF7Tabs(session, selected = "物品搜索")
-  })
-  
-  # 其他功能（占位）
-  observeEvent(input$go_to_other, {
-    showNotification("其他功能尚未实现", type = "warning")
-  })
-  
   observeEvent(input$search_btn, {
     req(input$search_sku)
     
