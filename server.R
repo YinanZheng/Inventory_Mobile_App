@@ -1,18 +1,18 @@
 server <- function(input, output, session) {
   
+  source("global.R", local = TRUE)
+  
   # Database
   con <- db_connection()
   
   # 绑定摄像头扫码事件
   observeEvent(input$scan_sku, { session$sendCustomMessage("startScanner", "search_sku") })
   observeEvent(input$scan_order_id, { session$sendCustomMessage("startScanner", "search_order_id") })
-  observeEvent(input$scan_tracking, { session$sendCustomMessage("startScanner", "search_tracking") })
   
-  # 物品搜索逻辑
+  # 物品搜索逻辑（SKU 或 物品名二选一）
   observeEvent(input$search_item, {
-    req(input$search_sku, input$search_name)
+    req(input$search_sku != "" | input$search_name != "") # 允许二选一
     
-    # 构建查询语句
     query <- paste0("
       SELECT i.SKU, i.ItemName, i.Maker, i.MajorType, i.MinorType, i.ProductCost, i.ShippingCost, i.ItemImagePath, 
              u.Status, u.Defect, u.DefectNotes
@@ -22,18 +22,23 @@ server <- function(input, output, session) {
          OR i.ItemName LIKE '%", input$search_name, "%'
     ")
     
-    # 获取查询结果
     result <- dbGetQuery(con, query)
     
-    # 渲染 UI
     output$item_result <- renderUI({
       if (nrow(result) == 0) {
         return(tags$p("未找到该物品", style = "color: red;"))
       }
       
+      # 处理图片路径
+      item_img_path <- ifelse(
+        is.na(result$ItemImagePath[1]) || result$ItemImagePath[1] == "",
+        placeholder_150px_path,
+        paste0(host_url, "/images/", basename(result$ItemImagePath[1]))
+      )
+      
       tagList(
         tags$h3("物品信息"),
-        tags$img(src = result$ItemImagePath[1], width = "100%"),
+        tags$img(src = item_img_path, width = "100%"),
         tags$p(paste("名称:", result$ItemName[1])),
         tags$p(paste("品牌:", result$Maker[1])),
         tags$p(paste("分类:", result$MajorType[1], "/", result$MinorType[1])),
@@ -44,11 +49,10 @@ server <- function(input, output, session) {
     })
   })
   
-  # 订单搜索逻辑
+  # 订单搜索逻辑（订单号 或 运单号二选一）
   observeEvent(input$search_order, {
-    req(input$search_order_id, input$search_tracking)
+    req(input$search_order_id != "" | input$search_tracking != "") # 允许二选一
     
-    # 查询订单
     query <- paste0("
       SELECT OrderID, UsTrackingNumber, CustomerName, Platform, OrderImagePath, OrderNotes, OrderStatus
       FROM orders
@@ -63,9 +67,16 @@ server <- function(input, output, session) {
         return(tags$p("未找到该订单", style = "color: red;"))
       }
       
+      # 处理订单图片路径
+      order_img_path <- ifelse(
+        is.na(result$OrderImagePath[1]) || result$OrderImagePath[1] == "",
+        placeholder_150px_path,
+        paste0(host_url, "/images/", basename(result$OrderImagePath[1]))
+      )
+      
       tagList(
         tags$h3("订单信息"),
-        tags$img(src = result$OrderImagePath[1], width = "100%"),
+        tags$img(src = order_img_path, width = "100%"),
         tags$p(paste("订单号:", result$OrderID[1])),
         tags$p(paste("物流单号:", result$UsTrackingNumber[1])),
         tags$p(paste("顾客:", result$CustomerName[1])),
