@@ -48,16 +48,18 @@ server <- function(input, output, session) {
       )
     })
     
+    # 渲染库存状态图表（显示具体库存数量，不显示百分比 & legend）
     output$stock_distribution <- renderPlotly({
       plot_ly(
         labels = c("国内库存", "在途", "美国库存"),
         values = c(result$domestic_stock[1], result$transit_stock[1], result$us_stock[1]),
         type = "pie",
-        hole = 0.5,
-        textinfo = "label+percent",
-        marker = list(colors = c("#007BFF", "#FFC107", "#28A745"))
+        hole = 0.4,  # 环形图
+        textinfo = "label+value",  # 显示类别+数量（不显示百分比）
+        marker = list(colors = c("#007BFF", "#FFC107", "#28A745")),
+        showlegend = FALSE  # 关闭图例
       ) %>%
-        layout(title = "库存状态分布")
+        layout(title = list(text = "库存状态（单位: 件）", font = list(size = 18)))
     })
   })
 }
