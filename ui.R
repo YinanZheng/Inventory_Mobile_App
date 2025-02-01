@@ -1,4 +1,4 @@
-f7Page(
+ui <- f7Page(
   title = "库存管理系统（移动端）",
   options = list(dark = FALSE),
   
@@ -30,13 +30,13 @@ f7Page(
             # 物品搜索图标
             div(
               style = "text-align: center; margin: 10px;",
-              div(
-                style = "font-size: 36px; color: #007BFF;",  # 设置样式在外层 div
-                f7Link(
-                  label = NULL,
-                  href = "#search",  # 跳转到物品搜索页面
-                  icon = f7Icon("search")
-                )
+              f7Button(
+                inputId = "go_to_search",  # 点击按钮触发事件
+                label = NULL,
+                icon = f7Icon("search"),
+                color = "blue",
+                fill = TRUE,
+                style = "font-size: 36px; padding: 20px; height: auto;"
               ),
               div(style = "margin-top: 5px;", "物品搜索")
             ),
@@ -44,13 +44,13 @@ f7Page(
             # 其他功能图标（可扩展）
             div(
               style = "text-align: center; margin: 10px;",
-              div(
-                style = "font-size: 36px; color: #007BFF;",
-                f7Link(
-                  label = NULL,
-                  href = "#other-feature",  # 跳转到其他功能页面（占位）
-                  icon = f7Icon("cube_box")
-                )
+              f7Button(
+                inputId = "go_to_other",  # 其他功能按钮
+                label = NULL,
+                icon = f7Icon("cube_box"),
+                color = "blue",
+                fill = TRUE,
+                style = "font-size: 36px; padding: 20px; height: auto;"
               ),
               div(style = "margin-top: 5px;", "其他功能")
             )
@@ -64,9 +64,9 @@ f7Page(
         icon = f7Icon("search"),
         active = FALSE,
         
-        # 搜索框
+        # 固定搜索框
         div(
-          style = "position: fixed; top: 40px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 10px 10px 5px; border-bottom: 1px solid #ccc;",
+          style = "position: fixed; top: 50px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 10px 10px 5px; border-bottom: 1px solid #ccc;",
           f7Block(
             strong = FALSE,
             inset = FALSE,
