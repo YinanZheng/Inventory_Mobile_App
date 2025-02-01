@@ -2,7 +2,7 @@ ui <- f7Page(
   title = "库存管理系统（移动端）",
   options = list(dark = FALSE),
   
-  # 使用 f7TabLayout 带有底部导航栏
+  # 采用 f7TabLayout，带有底部导航栏
   f7TabLayout(
     navbar = f7Navbar(
       title = "库存管理系统",
@@ -10,27 +10,28 @@ ui <- f7Page(
       shadow = TRUE
     ),
     
-    # 添加 id="tabs" 让 f7TabLink 可以控制 f7Tabs
+    # 主要功能页面
     f7Tabs(
-      id = "tabs",
       swipeable = FALSE,
       animated = TRUE,
       
-      # 商品搜索页面
+      # 商品搜索
       f7Tab(
         tabName = "商品搜索",
         icon = f7Icon("search"),
-        active = TRUE,
-
+        
+        # 固定搜索框
         div(
-          style = "position: sticky; z-index: 500; background-color: #f7f7f8; padding: 10px; border-bottom: 1px solid #ccc;",
+          style = "position: fixed; top: 40px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 10px; border-bottom: 1px solid #ccc;",
           f7BlockTitle("商品搜索"),
           f7Block(
             strong = FALSE,
             inset = FALSE,
             style = "padding: 0; margin: 0;",
+            
             div(
               style = "display: flex; align-items: center; justify-content: space-between;",
+              
               div(
                 style = "flex: 2; margin-right: 10px;",
                 f7Text(
@@ -39,6 +40,7 @@ ui <- f7Page(
                   placeholder = "输入 SKU 或 物品名..."
                 )
               ),
+              
               div(
                 style = "flex: 1;",
                 f7Button(
@@ -52,14 +54,14 @@ ui <- f7Page(
           )
         ),
         
-        # 搜索结果区域，注意这里根据页面内容高度设置了合适的高度
+        # 搜索结果区域
         div(
-          style = "padding: 10px; overflow-y: auto; height: calc(100vh - 150px);",
+          style = "margin-top: 120px; padding: 10px; overflow-y: auto; height: calc(100vh - 130px);",
           uiOutput("search_results")
         )
       ),
       
-      # 订单查询页面
+      # 其他功能（示例）
       f7Tab(
         tabName = "订单查询",
         icon = f7Icon("cart"),
