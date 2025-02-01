@@ -24,7 +24,7 @@ server <- function(input, output, session) {
       return()
     }
     
-    # **确保 Status 列是字符型**
+    # **确保 Status 是字符型**
     result$Status <- as.character(result$Status)
     
     # **计算库存统计**
@@ -97,7 +97,8 @@ server <- function(input, output, session) {
                 ),
                 tags$tr(
                   tags$td(style = "padding: 8px; font-weight: bold;", "总库存"),
-                  tags$td(style = "padding: 8px; font-weight: bold;", sum(stock))
+                  tags$td(style = "padding: 8px; font-weight: bold;", 
+                          sum(stock$美国库存数, stock$在途库存数, stock$国内库存数, na.rm = TRUE))  # ✅ **修正 sum()**
                 )
               )
             )
