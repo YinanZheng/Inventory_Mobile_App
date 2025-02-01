@@ -4,9 +4,10 @@ server <- function(input, output, session) {
   # Database
   con <- db_connection()
   
-  # 绑定摄像头扫码事件
-  observeEvent(input$scan_sku, { session$sendCustomMessage("startScanner", "search_sku") })
-  observeEvent(input$scan_order_id, { session$sendCustomMessage("startScanner", "search_order_id") })
+  # 监听关闭 modal 事件
+  observeEvent(input$close_modal, {
+    updateF7Sheet(session, id = "imageModal", sheetClose = TRUE)
+  })
   
   # 📦 物品搜索逻辑
   observeEvent(input$search_item, {
@@ -28,26 +29,6 @@ server <- function(input, output, session) {
       return()
     }
     
-    # 计算库存状态
-    sku_stats <- dbGetQuery(con, paste0("
-      SELECT Status, COUNT(*) AS Count
-      FROM unique_items
-      WHERE SKU = '", sku, "'
-      GROUP BY Status
-    "))
-    
-    status_levels <- c("采购", "国内入库", "国内售出", "国内出库", "美国入库", "美国调货", "美国发货", "退货")
-    status_colors <- c("lightgray", "#c7e89b", "#9ca695", "#46a80d", "#6f52ff", "#529aff", "#faf0d4", "red")
-    
-    inventory_status_data <- merge(
-      data.frame(Status = status_levels),
-      sku_stats,
-      by = "Status",
-      all.x = TRUE
-    )
-    inventory_status_data$Count[is.na(inventory_status_data$Count)] <- 0
-    inventory_status_data <- inventory_status_data[match(status_levels, inventory_status_data$Status), ]
-    
     img_path <- ifelse(
       is.na(sku_data$ItemImagePath[1]),
       placeholder_150px_path,
@@ -59,7 +40,11 @@ server <- function(input, output, session) {
         style = "display: flex; flex-direction: column; align-items: center; padding: 10px;",
         div(
           style = "text-align: center; margin-bottom: 10px;",
-          tags$img(src = img_path, height = "150px", style = "border: 1px solid #ddd; border-radius: 8px;")
+          tags$a(
+            href = "#",
+            onclick = paste0("showImageModal('", img_path, "')"),
+            tags$img(src = img_path, height = "150px", style = "border: 1px solid #ddd; border-radius: 8px;")
+          )
         ),
         div(
           style = "width: 100%; padding-left: 10px;",
