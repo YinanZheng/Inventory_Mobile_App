@@ -27,6 +27,9 @@ server <- function(input, output, session) {
     # **确保 Status 是字符型**
     result$Status <- as.character(result$Status)
     
+    # **去重，确保每个 SKU 只显示一次**
+    result <- distinct(result, SKU, .keep_all = TRUE)
+    
     # **计算库存统计**
     stock_summary <- result %>%
       group_by(SKU) %>%  
