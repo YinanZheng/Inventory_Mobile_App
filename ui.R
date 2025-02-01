@@ -5,6 +5,7 @@ ui <- f7Page(
   tags$script(HTML("
     function showImageModal(src) {
       document.getElementById('modalImage').src = src;
+      // 注意这里仍然传递 open ，因为我们在服务器端进行判断
       Shiny.setInputValue('imageModal', { open: true }, { priority: 'event' });
     }
   

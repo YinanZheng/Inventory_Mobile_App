@@ -1,27 +1,27 @@
 server <- function(input, output, session) {
   source("global.R", local = TRUE)
   
-  # Database
+  # Database 连接（请确保 global.R 中 db_connection() 正确）
   con <- db_connection()
   
-  # 初始化 modal 关闭状态，防止加载时报错
+  # 初始化 modal 关闭状态，避免加载时报错
   observe({
     if (is.null(input$imageModal)) {
-      updateF7Sheet(session, id = "imageModal", sheetState = list(open = FALSE))
+      updateF7Sheet(session, id = "imageModal", sheetState = list(opened = FALSE))
     }
   })
   
-  # 监听关闭 modal 事件
+  # 监听关闭 modal 按钮事件
   observeEvent(input$close_modal, {
-    updateF7Sheet(session, id = "imageModal", sheetState = list(open = FALSE))
+    updateF7Sheet(session, id = "imageModal", sheetState = list(opened = FALSE))
   })
   
-  # 监听 modal 状态，根据传递的 list 更新 sheet 的显示状态
+  # 监听 JS 传来的 modal 状态
   observeEvent(input$imageModal, {
     if (!is.null(input$imageModal) && is.list(input$imageModal) && input$imageModal$open) {
-      updateF7Sheet(session, id = "imageModal", sheetState = list(open = TRUE))
+      updateF7Sheet(session, id = "imageModal", sheetState = list(opened = TRUE))
     } else {
-      updateF7Sheet(session, id = "imageModal", sheetState = list(open = FALSE))
+      updateF7Sheet(session, id = "imageModal", sheetState = list(opened = FALSE))
     }
   })
   
