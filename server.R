@@ -36,6 +36,12 @@ server <- function(input, output, session) {
         paste0(host_url, "/images/", basename(result$ItemImagePath[1]))
       )
       
+      # 处理瑕疵情况
+      defect_info <- paste(
+        "瑕疵情况:", result$Defect[1], 
+        ifelse(is.na(result$DefectNotes[1]) || result$DefectNotes[1] == "", "（无备注）", paste0("（", result$DefectNotes[1], "）"))
+      )
+      
       tagList(
         tags$h3("物品信息"),
         tags$img(src = item_img_path, width = "100%"),
@@ -44,7 +50,7 @@ server <- function(input, output, session) {
         tags$p(paste("分类:", result$MajorType[1], "/", result$MinorType[1])),
         tags$p(paste("价格:", result$ProductCost[1], "元")),
         tags$p(paste("库存状态:", result$Status[1])),
-        tags$p(paste("瑕疵情况:", result$Defect[1], result$DefectNotes[1]))
+        tags$p(defect_info)  # 使用修改后的瑕疵显示格式
       )
     })
   })
