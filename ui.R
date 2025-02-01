@@ -14,7 +14,7 @@ ui <- f7Page(
       strong = TRUE,
       inset = TRUE,
       div(
-        style = "border: 1px solid #ccc; border-radius: 8px; padding: 10px; background-color: #fff; margin: 10px;",
+        style = "border: 1px solid #ccc; border-radius: 8px; padding: 10px; background-color: #fff;",
         f7Text(
           inputId = "search_sku",
           label = NULL,
@@ -23,7 +23,13 @@ ui <- f7Page(
       ),
       div(
         style = "margin-top: 10px;",  
-        f7Button(inputId = "search_btn", label = "查询", color = "blue")
+        f7Button(
+          inputId = "search_btn",
+          label = "查询",
+          color = "blue",
+          fill = TRUE,  # 让按钮充满宽度
+          style = "font-size: 18px; height: 45px; padding: 10px 0; border-radius: 8px;"
+        )      
       )
     ),
     
