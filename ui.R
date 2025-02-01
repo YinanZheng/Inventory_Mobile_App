@@ -22,14 +22,16 @@ ui <- f7Page(
         )
       ),
       div(
-        style = "margin-top: 10px;",  
-        f7Button(
-          inputId = "search_btn",
-          label = "查询",
-          color = "blue",
-          fill = TRUE,  # 让按钮充满宽度
-          style = "font-size: 18px; height: 45px; padding: 10px 0; border-radius: 8px;"
-        )      
+        style = "margin-top: 10px; text-align: center;",
+        div(
+          style = "width: 100%; max-width: 300px; margin: 0 auto;",  # 限制按钮宽度，不会太大
+          f7Button(
+            inputId = "search_btn",
+            label = "查询",
+            color = "blue",
+            fill = TRUE  # 让按钮充满父容器
+          )
+        )
       )
     ),
     
