@@ -4,12 +4,19 @@ server <- function(input, output, session) {
   # Database
   con <- db_connection()
   
-  # 监听关闭 modal 事件，修复 `is.list(val) is not TRUE` 错误
+  # 初始化 modal 关闭状态，防止加载时报错
+  observe({
+    if (is.null(input$imageModal)) {
+      updateF7Sheet(session, id = "imageModal", session = session, sheetClose = TRUE)
+    }
+  })
+  
+  # 监听关闭 modal 事件
   observeEvent(input$close_modal, {
     updateF7Sheet(session, id = "imageModal", session = session, sheetClose = TRUE)
   })
   
-  # 监听 modal 关闭或打开
+  # 监听 modal 状态，确保 `updateF7Sheet()` 传递 `list`
   observeEvent(input$imageModal, {
     if (!is.null(input$imageModal) && is.list(input$imageModal) && input$imageModal$open) {
       updateF7Sheet(session, id = "imageModal", session = session, sheetClose = FALSE)

@@ -5,11 +5,11 @@ ui <- f7Page(
   tags$script(HTML("
     function showImageModal(src) {
       document.getElementById('modalImage').src = src;
-      Shiny.setInputValue('imageModal', { open: true }, {priority: 'event'});
+      Shiny.setInputValue('imageModal', { open: true }, { priority: 'event' });
     }
   
     function closeImageModal() {
-      Shiny.setInputValue('imageModal', { open: false }, {priority: 'event'});
+      Shiny.setInputValue('imageModal', { open: false }, { priority: 'event' });
     }
   ")),
     
