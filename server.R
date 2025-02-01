@@ -4,9 +4,9 @@ server <- function(input, output, session) {
   # Database
   con <- db_connection()
   
-  # 监听关闭 modal 事件
+  # 监听关闭 modal 事件，修复 `is.list(val) is not TRUE` 错误
   observeEvent(input$close_modal, {
-    updateF7Sheet(session, id = "imageModal", sheetClose = TRUE)
+    updateF7Sheet(session, id = "imageModal", session = session, sheetClose = TRUE)
   })
   
   # 📦 物品搜索逻辑
@@ -60,22 +60,6 @@ server <- function(input, output, session) {
         )
       )
     })
-    
-    # 渲染库存状态图表
-    output$inventory_status_chart <- renderPlotly({
-      plot_ly(
-        data = inventory_status_data,
-        labels = ~Status,
-        values = ~Count,
-        type = "pie",
-        textinfo = "label+value",
-        hoverinfo = "label+percent+value",
-        insidetextorientation = "auto",
-        textposition = "inside",
-        marker = list(colors = status_colors)
-      ) %>%
-        layout(showlegend = FALSE)
-    })
   })
   
   # 📜 订单搜索逻辑
@@ -115,7 +99,7 @@ server <- function(input, output, session) {
             f7Block(
               f7Row(
                 f7Col(width = 4, 
-                      tags$a(tags$img(src = order_img_path, width = "100%", onclick = paste0("openImage('", order_img_path, "')")))),  # ✅ 点击放大
+                      tags$a(tags$img(src = order_img_path, width = "100%", onclick = paste0("showImageModal('", order_img_path, "')")))),  
                 f7Col(width = 8, 
                       tags$p(paste("物流单号:", result$UsTrackingNumber[i])),
                       tags$p(paste("顾客:", result$CustomerName[i])),
