@@ -1,6 +1,3 @@
-library(shiny)
-library(shinyMobile)
-
 ui <- f7Page(
   title = "库存 & 订单查询",
   allowPWA = TRUE,
@@ -24,12 +21,11 @@ ui <- f7Page(
           strong = TRUE,
           inset = TRUE,
           tags$h3("🔍 搜索库存", style = "color: #007AFF; text-align: center;"),
-          f7Text("search_sku", "输入 SKU 或使用扫码", placeholder = "例如：SKU123456"),
-          f7Row(
-            f7Col(width = 6, f7Button("scan_sku", "📸 扫描 SKU", color = "blue")),
-            f7Col(width = 6, f7Button("search_item", "🔎 查询", color = "green"))
-          ),
-          f7Text("search_name", "输入物品名称（可选）", placeholder = "例如：乐高积木"),
+          f7Text("search_sku", "输入 SKU"),
+          f7Button("scan_sku", "📸 扫描 SKU", color = "blue"),
+          f7Text("search_name", "输入物品名称（可选）"),
+          br(),
+          f7Button("search_item", "🔎 查询", color = "green", fill = TRUE),
           br(),
           uiOutput("item_result")
         )
@@ -44,12 +40,11 @@ ui <- f7Page(
           strong = TRUE,
           inset = TRUE,
           tags$h3("📦 订单查询", style = "color: #FF3B30; text-align: center;"),
-          f7Text("search_order_id", "输入订单号或使用扫码", placeholder = "例如：ORD12345"),
-          f7Row(
-            f7Col(width = 6, f7Button("scan_order_id", "📸 扫描订单", color = "red")),
-            f7Col(width = 6, f7Button("search_order", "🔎 查询", color = "green"))
-          ),
-          f7Text("search_tracking", "输入运单号（可选）", placeholder = "例如：US123456789"),
+          f7Text("search_order_id", "输入订单号"),
+          f7Button("scan_order_id", "📸 扫描订单", color = "red"),
+          f7Text("search_tracking", "输入运单号（可选）"),
+          br(),
+          f7Button("search_order", "🔎 查询", color = "green", fill = TRUE),
           br(),
           uiOutput("order_result")
         )
@@ -68,9 +63,15 @@ ui <- f7Page(
   # 📜 JavaScript 逻辑：扫码成功后填充输入框
   tags$script(HTML("
     function startScanner(inputId) {
-      document.getElementById('scanner-container').style.display = 'block';
-      document.getElementById('scanner-video').style.display = 'block';
-      document.getElementById('stop-scanner').style.display = 'block';
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+        .then(function(stream) {
+          document.getElementById('scanner-container').style.display = 'block';
+          document.getElementById('scanner-video').srcObject = stream;
+          document.getElementById('stop-scanner').style.display = 'block';
+        })
+        .catch(function(err) {
+          alert('无法访问摄像头，请检查权限！');
+        });
 
       Quagga.init({
         inputStream: {
@@ -83,7 +84,7 @@ ui <- f7Page(
       }, function(err) {
         if (err) {
           console.error(err);
-          alert('无法启动摄像头，请检查浏览器权限！');
+          alert('摄像头启动失败！');
           return;
         }
         Quagga.start();
@@ -91,19 +92,21 @@ ui <- f7Page(
 
       Quagga.onDetected(function(result) {
         var code = result.codeResult.code;
-        console.log('Scanned code:', code);
         Shiny.setInputValue(inputId, code, {priority: 'event'});
         stopScanner();
       });
     }
 
     function stopScanner() {
-      Quagga.stop();
+      let video = document.getElementById('scanner-video');
+      let stream = video.srcObject;
+      let tracks = stream.getTracks();
+
+      tracks.forEach(track => track.stop());
+      video.srcObject = null;
+      
       document.getElementById('scanner-container').style.display = 'none';
-      document.getElementById('scanner-video').style.display = 'none';
       document.getElementById('stop-scanner').style.display = 'none';
     }
-
-    document.getElementById('stop-scanner').addEventListener('click', stopScanner);
   "))
 )
