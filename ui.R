@@ -2,8 +2,6 @@ ui <- f7Page(
   title = "库存 & 订单查询",
   allowPWA = TRUE,
   
-  # 注意：在 shinyMobile 2.0.1 中，不再使用 f7Tabs() 单独构建标签页，
-  # 而是直接在 f7TabLayout() 中通过参数 tabs 来传入一个列表
   f7TabLayout(
     navbar = f7Navbar(
       title = tags$span("📦 库存 & 订单查询", style = "font-weight: bold;"),
@@ -27,7 +25,7 @@ ui <- f7Page(
           f7Button("search_item", "🔎 查询", color = "green", fill = TRUE),
           br(),
           # 展示查询结果（图片和详细信息）
-          # uiOutput("query_item_info")
+          uiOutput("query_item_info")
         )
       ),
       
@@ -44,7 +42,7 @@ ui <- f7Page(
           br(),
           f7Button("search_order", "🔎 查询", color = "green", fill = TRUE),
           br(),
-          # uiOutput("order_result")
+          uiOutput("order_result")
         )
       )
     )

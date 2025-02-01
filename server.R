@@ -1,6 +1,46 @@
 server <- function(input, output, session) {
   con <- db_connection()  # 建立数据库连接
   
+  unique_items_data <- reactive({
+    dbGetQuery(con, "
+    SELECT 
+      unique_items.UniqueID, 
+      unique_items.SKU, 
+      unique_items.OrderID,
+      unique_items.ProductCost,
+      unique_items.DomesticShippingCost,
+      unique_items.Status,
+      unique_items.Defect,
+      unique_items.DefectNotes,
+      unique_items.IntlShippingMethod,
+      unique_items.IntlTracking,
+      unique_items.IntlShippingCost,
+      unique_items.PurchaseTime,
+      unique_items.DomesticEntryTime,
+      unique_items.DomesticExitTime,
+      unique_items.DomesticSoldTime,
+      unique_items.UsEntryTime,
+      unique_items.UsShippingTime,
+      unique_items.UsRelocationTime,
+      unique_items.ReturnTime,
+      unique_items.PurchaseCheck,
+      unique_items.updated_at,
+      inventory.Maker,
+      inventory.MajorType,
+      inventory.MinorType,
+      inventory.ItemName,
+      inventory.ItemImagePath
+    FROM 
+      unique_items
+    JOIN 
+      inventory 
+    ON 
+      unique_items.SKU = inventory.SKU
+    ORDER BY 
+      unique_items.updated_at DESC
+  ")
+  })
+  
   # 物品搜索逻辑
   observeEvent(input$search_item, {
     req(input$search_sku != "" | input$search_name != "")
