@@ -4,7 +4,16 @@ library(DBI)
 library(RMariaDB)
 library(plotly)
 
-source("/srv/shiny-server/inventory_shared_module/utils.R", local = FALSE)  # 确保加载到全局环境
+db_connection <- function() {
+  dbConnect(
+    RMariaDB::MariaDB(),
+    dbname = "inventory_system",
+    host = "localhost",
+    user = "root",
+    password = "goldenbeanllc",
+    encoding = "utf8mb4"
+  )
+}
 
 # 主机URL
 host_url <<- "http://54.254.120.88/"

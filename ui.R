@@ -1,50 +1,29 @@
 ui <- f7Page(
-  title = "库存 & 订单查询",
-  allowPWA = TRUE,
+  title = "库存管理系统（移动端）",  # 更新页面标题
+  options = list(dark = FALSE),
   
-  f7TabLayout(
+  f7SingleLayout(
     navbar = f7Navbar(
-      title = tags$span("📦 库存 & 订单查询", style = "font-weight: bold;"),
+      title = "库存管理系统（移动端）",  # 更新导航栏标题
       hairline = FALSE,
       shadow = TRUE
     ),
-    animated = TRUE,
-    tabs = list(
-      # 物品搜索页面
-      f7Tab(
-        tabName = "物品搜索",
-        icon = f7Icon("cube", color = "blue"),
-        f7Block(
-          strong = TRUE,
-          inset = TRUE,
-          tags$h3("🔍 搜索库存", style = "color: #007AFF; text-align: center;"),
-          # 为输入框设置背景为白色、文字为黑色，提升手机端可读性
-          f7Text("search_sku", "输入 SKU", style = "background-color: #fff; color: #000;"),
-          f7Text("search_name", "输入物品名称（可选）", style = "background-color: #fff; color: #000;"),
-          br(),
-          f7Button("search_item", "🔎 查询", color = "green", fill = TRUE),
-          br(),
-          # 展示查询结果（图片和详细信息）
-          uiOutput("query_item_info")
-        )
-      ),
-      
-      # 订单搜索页面（示例代码，查询逻辑待补充）
-      f7Tab(
-        tabName = "订单搜索",
-        icon = f7Icon("cart", color = "red"),
-        f7Block(
-          strong = TRUE,
-          inset = TRUE,
-          tags$h3("📦 订单查询", style = "color: #FF3B30; text-align: center;"),
-          f7Text("search_order_id", "输入订单号", style = "background-color: #fff; color: #000;"),
-          f7Text("search_tracking", "输入运单号（可选）", style = "background-color: #fff; color: #000;"),
-          br(),
-          f7Button("search_order", "🔎 查询", color = "green", fill = TRUE),
-          br(),
-          uiOutput("order_result")
-        )
-      )
+    
+    # 搜索框
+    f7Block(
+      strong = TRUE,
+      inset = TRUE,
+      f7Text(inputId = "search_sku", label = "SKU / 物品名", placeholder = "输入 SKU 或 物品名..."),
+      f7Button(inputId = "search_btn", label = "查询", color = "blue")
+    ),
+    
+    # 物品信息显示
+    uiOutput("item_info"),
+    
+    # 库存状态图表
+    f7Block(
+      f7BlockTitle(title = "库存状态分布", size = "large"),
+      plotlyOutput("stock_distribution", height = "250px")
     )
   )
 )
