@@ -27,7 +27,7 @@ ui <- f7Page(
           f7Button("search_item", "🔎 查询", color = "green", fill = TRUE),
           br(),
           # 展示查询结果（图片和详细信息）
-          uiOutput("query_item_info")
+          # uiOutput("query_item_info")
         )
       ),
       
@@ -44,7 +44,7 @@ ui <- f7Page(
           br(),
           f7Button("search_order", "🔎 查询", color = "green", fill = TRUE),
           br(),
-          uiOutput("order_result")
+          # uiOutput("order_result")
         )
       )
     )
