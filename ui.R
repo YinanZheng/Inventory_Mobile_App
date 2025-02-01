@@ -26,7 +26,7 @@ ui <- f7Page(
           f7BlockTitle("商品搜索"),
           f7Flex(
             div(
-              style = "flex: 4; margin-right: 5px;",  # 输入框占 80%，间距 5px
+              style = "flex: 4; align-self: center; margin-right: 5px;",  # 输入框占 80%，垂直居中
               f7Text(
                 inputId = "search_sku",
                 label = NULL,
@@ -34,7 +34,7 @@ ui <- f7Page(
               )
             ),
             div(
-              style = "flex: 1;",  # 按钮占 20%
+              style = "flex: 1; align-self: center;",  # 按钮占 20%，垂直居中
               f7Button(
                 inputId = "search_btn",
                 label = "查询",
@@ -43,6 +43,7 @@ ui <- f7Page(
               )
             )
           )
+          
         ),
         
         # 搜索结果区域
