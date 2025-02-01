@@ -2,57 +2,71 @@ ui <- f7Page(
   title = "库存管理系统（移动端）",
   options = list(dark = FALSE),
   
+  # 使用 f7TabLayout 带有底部导航栏
   f7TabLayout(
     navbar = f7Navbar(
-      title = "库存管理系统"
+      title = "库存管理系统",
+      hairline = FALSE,
+      shadow = TRUE
     ),
-    # 注意：设置 id="tabs"，供 f7TabLink 识别
+    
+    # 添加 id="tabs" 让 f7TabLink 可以控制 f7Tabs
     f7Tabs(
       id = "tabs",
       swipeable = FALSE,
-      animated = FALSE,
+      animated = TRUE,
       
-      # 商品搜索页面，内部 tabName 用纯英文标识
+      # 商品搜索页面
       f7Tab(
-        tabName = "tab_search", 
+        tabName = "商品搜索",
         icon = f7Icon("search"),
         active = TRUE,
+
         div(
-          style = "padding: 10px;",
-          h3("商品搜索"),
-          # 搜索框区域
-          div(
-            style = "display: flex; align-items: center; margin-bottom: 10px;",
+          style = "position: sticky; top: 40px; z-index: 500; background-color: #f7f7f8; padding: 10px; border-bottom: 1px solid #ccc;",
+          f7BlockTitle("商品搜索"),
+          f7Block(
+            strong = FALSE,
+            inset = FALSE,
+            style = "padding: 0; margin: 0;",
             div(
-              style = "flex:2; margin-right: 10px;",
-              f7Text(
-                inputId = "search_sku",
-                label = NULL,
-                placeholder = "输入 SKU 或物品名..."
-              )
-            ),
-            div(
-              style = "flex:1;",
-              f7Button(
-                inputId = "search_btn",
-                label = "查询",
-                color = "blue",
-                fill = TRUE
+              style = "display: flex; align-items: center; justify-content: space-between;",
+              div(
+                style = "flex: 2; margin-right: 10px;",
+                f7Text(
+                  inputId = "search_sku",
+                  label = NULL,
+                  placeholder = "输入 SKU 或 物品名..."
+                )
+              ),
+              div(
+                style = "flex: 1;",
+                f7Button(
+                  inputId = "search_btn",
+                  label = "查询",
+                  color = "blue",
+                  fill = TRUE
+                )
               )
             )
-          ),
-          # 搜索结果区域
+          )
+        ),
+        
+        # 搜索结果区域，注意这里根据页面内容高度设置了合适的高度
+        div(
+          style = "padding: 10px; overflow-y: auto; height: calc(100vh - 150px);",
           uiOutput("search_results")
         )
       ),
       
-      # 订单查询页面，内部 tabName 用纯英文标识
+      # 订单查询页面
       f7Tab(
-        tabName = "tab_orders",
+        tabName = "订单查询",
         icon = f7Icon("cart"),
-        div(
-          style = "padding: 10px;",
-          h3("订单查询"),
+        f7BlockTitle("订单查询"),
+        f7Block(
+          strong = TRUE,
+          inset = TRUE,
           "这里是订单管理页面"
         )
       )
