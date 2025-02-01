@@ -1,5 +1,5 @@
 server <- function(input, output, session) {
-  con <- db_connection()  # 从 global.R 连接数据库
+  con <- db_connection()  # 连接数据库
   
   observeEvent(input$search_btn, {
     req(input$search_sku)
@@ -24,9 +24,12 @@ server <- function(input, output, session) {
     
     if (nrow(result) == 0) {
       showNotification("未找到相关库存", type = "warning")
+      output$item_info <- renderUI(NULL)
+      output$stock_table_ui <- renderUI(NULL)
       return()
     }
     
+    # 渲染物品信息
     output$item_info <- renderUI({
       item <- result[1, ]
       
@@ -48,18 +51,41 @@ server <- function(input, output, session) {
       )
     })
     
-    # 渲染库存状态图表（显示具体库存数量，不显示百分比 & legend）
-    output$stock_distribution <- renderPlotly({
-      plot_ly(
-        labels = c("国内库存", "在途", "美国库存"),
-        values = c(result$domestic_stock[1], result$transit_stock[1], result$us_stock[1]),
-        type = "pie",
-        hole = 0.4,  # 环形图
-        textinfo = "label+value",  # 显示类别+数量（不显示百分比）
-        marker = list(colors = c("#007BFF", "#FFC107", "#28A745")),
-        showlegend = FALSE  # 关闭图例
-      ) %>%
-        layout(title = list(text = "库存状态（单位: 件）", font = list(size = 18)))
+    # 渲染库存状态表
+    output$stock_table_ui <- renderUI({
+      f7Block(
+        f7BlockTitle(title = "库存状态", size = "large"),  # 仅在有数据时显示
+        div(
+          style = "overflow-x: auto;",
+          tags$table(
+            style = "width: 100%; border-collapse: collapse; text-align: left;",
+            tags$thead(
+              tags$tr(
+                tags$th(style = "border-bottom: 2px solid #ccc; padding: 10px;", "库存类型"),
+                tags$th(style = "border-bottom: 2px solid #ccc; padding: 10px;", "数量")
+              )
+            ),
+            tags$tbody(
+              tags$tr(
+                tags$td(style = "padding: 10px; border-bottom: 1px solid #eee;", "国内库存"),
+                tags$td(style = "padding: 10px; border-bottom: 1px solid #eee;", result$domestic_stock[1])
+              ),
+              tags$tr(
+                tags$td(style = "padding: 10px; border-bottom: 1px solid #eee;", "在途"),
+                tags$td(style = "padding: 10px; border-bottom: 1px solid #eee;", result$transit_stock[1])
+              ),
+              tags$tr(
+                tags$td(style = "padding: 10px; border-bottom: 1px solid #eee;", "美国库存"),
+                tags$td(style = "padding: 10px; border-bottom: 1px solid #eee;", result$us_stock[1])
+              ),
+              tags$tr(
+                tags$td(style = "padding: 10px; font-weight: bold;", "总库存"),
+                tags$td(style = "padding: 10px; font-weight: bold;", result$total_stock[1])
+              )
+            )
+          )
+        )
+      )
     })
   })
 }

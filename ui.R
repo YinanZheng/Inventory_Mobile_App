@@ -22,7 +22,7 @@ ui <- f7Page(
         )
       ),
       div(
-        style = "margin-top: 10px;",  # 使用 div 控制间距
+        style = "margin-top: 10px;",  
         f7Button(inputId = "search_btn", label = "查询", color = "blue")
       )
     ),
@@ -30,10 +30,7 @@ ui <- f7Page(
     # 物品信息显示
     uiOutput("item_info"),
     
-    # 库存状态图表
-    f7Block(
-      f7BlockTitle(title = "库存状态", size = "large"),
-      plotlyOutput("stock_distribution", height = "280px")
-    )
+    # 库存状态表格（仅在搜索后显示）
+    uiOutput("stock_table_ui")
   )
 )
