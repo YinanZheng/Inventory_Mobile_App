@@ -12,7 +12,6 @@ ui <- f7Page(
     
     # 主要功能页面
     f7Tabs(
-      animated = TRUE,
       swipeable = TRUE,
       
       # 主页
