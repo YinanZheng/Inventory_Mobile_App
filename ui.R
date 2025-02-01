@@ -10,15 +10,17 @@ ui <- f7Page(
       shadow = TRUE
     ),
     
-    # 主要功能页面
+    # ✅ 添加 `id = "tabs"` 让 `f7TabLink` 可以控制 `f7Tabs`
     f7Tabs(
+      id = "tabs",
       swipeable = FALSE,
       animated = TRUE,
       
-      # 商品搜索
+      # ✅ 商品搜索
       f7Tab(
         tabName = "商品搜索",
         icon = f7Icon("search"),
+        active = TRUE,  # 默认显示这个页面
         
         # 固定搜索框
         div(
@@ -61,10 +63,11 @@ ui <- f7Page(
         )
       ),
       
-      # 其他功能（示例）
+      # ✅ 订单查询
       f7Tab(
         tabName = "订单查询",
         icon = f7Icon("cart"),
+        
         f7BlockTitle("订单查询"),
         f7Block(
           strong = TRUE,
@@ -74,7 +77,7 @@ ui <- f7Page(
       )
     ),
     
-    # **底部导航栏**
+    # ✅ **底部导航栏，使用正确的 `tab` 名称**
     f7Toolbar(
       position = "bottom",
       icons = TRUE,
