@@ -28,15 +28,18 @@ ui <- f7Page(
             f7Text(
               inputId = "search_sku",
               label = NULL,  # 移除标签
-              placeholder = "输入 SKU / 物品名..."
+              placeholder = "输入 SKU / 物品名...",
+              class = "flex-grow-1"  # 输入框占 80%
             ),
             f7Button(
               inputId = "search_btn",
               label = "查询",
               color = "blue",
-              fill = TRUE
+              fill = TRUE,
+              class = "flex-grow-0"  # 按钮占 20%
             )
           )
+          
         ),
         
         # 搜索结果区域
