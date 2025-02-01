@@ -41,7 +41,7 @@ server <- function(input, output, session) {
           
           f7Card(
             title = result$ItemName[i],
-            f7Img(src = item_img_path, width = "100%"),
+            tags$img(src = item_img_path, width = "100%"),
             f7Text("供应商:", result$Maker[i]),
             f7Text("分类:", paste(result$MajorType[i], "/", result$MinorType[i])),
             f7Text("成本:", paste0(result$ProductCost[i], "元")),
@@ -78,7 +78,7 @@ server <- function(input, output, session) {
           
           f7Card(
             title = paste("订单号:", result$OrderID[i]),
-            f7Img(src = order_img_path, width = "100%"),
+            tags$img(src = order_img_path, width = "100%"),
             f7Text("物流单号:", result$UsTrackingNumber[i]),
             f7Text("顾客:", result$CustomerName[i]),
             f7Text("平台:", result$Platform[i]),
