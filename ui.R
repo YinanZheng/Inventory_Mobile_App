@@ -11,39 +11,41 @@ ui <- f7Page(
     
     f7Tabs(
       animated = TRUE,
-      
-      # 📦 物品搜索页面
-      f7Tab(
-        tabName = "物品搜索",
-        icon = f7Icon("cube", color = "blue"),
+      # 显式将所有 tab 包装在一个 list 中
+      list(
+        # 物品搜索页面
+        f7Tab(
+          tabName = "物品搜索",
+          icon = f7Icon("cube", color = "blue"),
+          
+          f7Block(
+            strong = TRUE,
+            inset = TRUE,
+            f7Text("search_sku", "输入 SKU", style = "background-color: white; color: black;"),
+            f7Text("search_name", "输入物品名称（可选）", style = "background-color: white; color: black;"),
+            br(),
+            f7Button("search_item", "🔎 查询", color = "green", fill = TRUE),
+            br(),
+            uiOutput("item_result")
+            # 移除了 plotlyOutput("inventory_status_chart")
+          )
+        ),
         
-        f7Block(
-          strong = TRUE,
-          inset = TRUE,
-          f7Text("search_sku", "输入 SKU", style = "background-color: white; color: black;"),
-          f7Text("search_name", "输入物品名称（可选）", style = "background-color: white; color: black;"),
-          br(),
-          f7Button("search_item", "🔎 查询", color = "green", fill = TRUE),
-          br(),
-          uiOutput("item_result"),  
-          plotlyOutput("inventory_status_chart")  
-        )
-      ),
-      
-      # 📜 订单搜索页面
-      f7Tab(
-        tabName = "订单搜索",
-        icon = f7Icon("cart", color = "red"),
-        
-        f7Block(
-          strong = TRUE,
-          inset = TRUE,
-          f7Text("search_order_id", "输入订单号", style = "background-color: white; color: black;"),
-          f7Text("search_tracking", "输入运单号（可选）", style = "background-color: white; color: black;"),
-          br(),
-          f7Button("search_order", "🔎 查询", color = "green", fill = TRUE),
-          br(),
-          uiOutput("order_result")
+        # 订单搜索页面
+        f7Tab(
+          tabName = "订单搜索",
+          icon = f7Icon("cart", color = "red"),
+          
+          f7Block(
+            strong = TRUE,
+            inset = TRUE,
+            f7Text("search_order_id", "输入订单号", style = "background-color: white; color: black;"),
+            f7Text("search_tracking", "输入运单号（可选）", style = "background-color: white; color: black;"),
+            br(),
+            f7Button("search_order", "🔎 查询", color = "green", fill = TRUE),
+            br(),
+            uiOutput("order_result")
+          )
         )
       )
     )

@@ -4,12 +4,11 @@ server <- function(input, output, session) {
   # 获取数据库连接（请确保 global.R 中 db_connection() 正常工作）
   con <- db_connection()
   
-  # 📦 物品搜索逻辑
+  # 物品搜索逻辑
   observeEvent(input$search_item, {
     req(input$search_sku != "" | input$search_name != "")
     
     sku <- input$search_sku
-    
     query <- paste0("
       SELECT i.SKU, i.ItemName, i.Maker, i.MajorType, i.MinorType, i.ProductCost, i.ShippingCost, i.Quantity, i.ItemImagePath
       FROM inventory i
@@ -18,7 +17,6 @@ server <- function(input, output, session) {
     ")
     
     sku_data <- dbGetQuery(con, query)
-    
     if (nrow(sku_data) == 0) {
       output$item_result <- renderUI(
         tags$p("未找到该物品", style = "color: red;")
@@ -35,7 +33,6 @@ server <- function(input, output, session) {
     output$item_result <- renderUI({
       div(
         style = "display: flex; flex-direction: column; align-items: center; padding: 10px;",
-        # 直接显示图片，不再包装点击事件
         div(
           style = "text-align: center; margin-bottom: 10px;",
           tags$img(src = img_path, height = "150px", style = "border: 1px solid #ddd; border-radius: 8px;")
@@ -74,7 +71,7 @@ server <- function(input, output, session) {
     })
   })
   
-  # 📜 订单搜索逻辑
+  # 订单搜索逻辑
   observeEvent(input$search_order, {
     req(input$search_order_id != "" | input$search_tracking != "")
     
@@ -114,7 +111,6 @@ server <- function(input, output, session) {
               f7Row(
                 f7Col(
                   width = 4, 
-                  # 直接显示图片，无点击事件
                   tags$img(src = order_img_path, width = "100%")
                 ),  
                 f7Col(
@@ -123,9 +119,7 @@ server <- function(input, output, session) {
                   tags$p(paste("顾客:", result$CustomerName[i])),
                   tags$p(paste("平台:", result$Platform[i])),
                   tags$p(paste("状态:", result$OrderStatus[i])),
-                  tags$p(paste("备注:", 
-                               ifelse(is.na(result$OrderNotes[i]) || result$OrderNotes[i] == "", "无", result$OrderNotes[i])
-                  ))
+                  tags$p(paste("备注:", ifelse(is.na(result$OrderNotes[i]) || result$OrderNotes[i] == "", "无", result$OrderNotes[i])))
                 )
               )
             )
