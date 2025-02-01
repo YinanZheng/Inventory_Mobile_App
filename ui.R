@@ -56,7 +56,7 @@ ui <- f7Page(
         
         # 搜索结果区域
         div(
-          style = "margin-top: 120px; padding: 10px; overflow-y: auto; height: calc(100vh - 130px);",
+          style = "margin-top: 120px; padding: 10px; overflow-y: auto; height: calc(100vh - 150px);",
           uiOutput("search_results")
         )
       ),
