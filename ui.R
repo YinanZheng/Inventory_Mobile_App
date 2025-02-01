@@ -14,10 +14,10 @@ ui <- f7Page(
       strong = TRUE,
       inset = TRUE,
       div(
-        style = "border: 1px solid #ccc; border-radius: 8px; padding: 5px; background-color: #fff;",
+        style = "border: 1px solid #ccc; border-radius: 8px; padding: 10px; background-color: #fff;",
         f7Text(
           inputId = "search_sku",
-          label = "",
+          label = "SKU / 物品名",
           placeholder = "输入 SKU 或 物品名..."
         )
       ),
@@ -27,10 +27,7 @@ ui <- f7Page(
       )
     ),
     
-    # 物品信息显示
-    uiOutput("item_info"),
-    
-    # 库存状态表格（仅在搜索后显示）
-    uiOutput("stock_table_ui")
+    # 搜索结果列表
+    uiOutput("search_results")
   )
 )
