@@ -4,9 +4,17 @@ server <- function(input, output, session) {
   # Database
   con <- db_connection()
   
-  # 监听关闭 modal 事件，修复 `is.list(val) is not TRUE` 错误
+  # 监听关闭 modal 事件，确保传递 list 类型参数
   observeEvent(input$close_modal, {
-    updateF7Sheet(session, id = "imageModal", session = session, sheetClose = TRUE)
+    updateF7Sheet(session, id = "imageModal", sheetClose = TRUE)
+  })
+  
+  observeEvent(input$imageModal, {
+    if (is.list(input$imageModal) && input$imageModal$open) {
+      updateF7Sheet(session, id = "imageModal", sheetClose = FALSE)
+    } else {
+      updateF7Sheet(session, id = "imageModal", sheetClose = TRUE)
+    }
   })
   
   # 📦 物品搜索逻辑
