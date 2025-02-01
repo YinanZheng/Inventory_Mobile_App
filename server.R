@@ -1,14 +1,6 @@
 server <- function(input, output, session) {
   con <- db_connection()  # 连接数据库
   
-  observeEvent(input$tab_search, {
-    updateF7Tabs(session, id = "tabs", selected = "物品搜索")
-  })
-  
-  observeEvent(input$tab_orders, {
-    updateF7Tabs(session, id = "tabs", selected = "订单管理")
-  })
-  
   observeEvent(input$search_btn, {
     req(input$search_sku)
     
