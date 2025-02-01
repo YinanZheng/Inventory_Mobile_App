@@ -12,8 +12,8 @@ ui <- f7Page(
     
     # 主要功能页面
     f7Tabs(
-      swipeable = TRUE,
-      animated = FALSE,
+      swipeable = FALSE,
+      animated = TRUE,
       
       # 商品搜索
       f7Tab(
