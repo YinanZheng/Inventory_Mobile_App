@@ -1,3 +1,6 @@
+library(shiny)
+library(shinyMobile)
+
 ui <- f7Page(
   title = "库存 & 订单查询",
   allowPWA = TRUE,
@@ -17,12 +20,16 @@ ui <- f7Page(
         tabName = "物品搜索",
         icon = f7Icon("cube", color = "blue"),
         
-        f7Card(
-          title = "🔍 搜索库存",
+        f7Block(
+          strong = TRUE,
+          inset = TRUE,
+          tags$h3("🔍 搜索库存", style = "color: #007AFF; text-align: center;"),
           f7Text("search_sku", "输入 SKU 或使用扫码", placeholder = "例如：SKU123456"),
-          f7Button("scan_sku", "📸 扫描 SKU", color = "blue"),
+          f7Row(
+            f7Col(width = 6, f7Button("scan_sku", "📸 扫描 SKU", color = "blue")),
+            f7Col(width = 6, f7Button("search_item", "🔎 查询", color = "green"))
+          ),
           f7Text("search_name", "输入物品名称（可选）", placeholder = "例如：乐高积木"),
-          f7Button("search_item", "🔎 查询", color = "green"),
           br(),
           uiOutput("item_result")
         )
@@ -33,12 +40,16 @@ ui <- f7Page(
         tabName = "订单搜索",
         icon = f7Icon("cart", color = "red"),
         
-        f7Card(
-          title = "📦 订单查询",
+        f7Block(
+          strong = TRUE,
+          inset = TRUE,
+          tags$h3("📦 订单查询", style = "color: #FF3B30; text-align: center;"),
           f7Text("search_order_id", "输入订单号或使用扫码", placeholder = "例如：ORD12345"),
-          f7Button("scan_order_id", "📸 扫描订单", color = "red"),
+          f7Row(
+            f7Col(width = 6, f7Button("scan_order_id", "📸 扫描订单", color = "red")),
+            f7Col(width = 6, f7Button("search_order", "🔎 查询", color = "green"))
+          ),
           f7Text("search_tracking", "输入运单号（可选）", placeholder = "例如：US123456789"),
-          f7Button("search_order", "🔎 查询", color = "green"),
           br(),
           uiOutput("order_result")
         )
