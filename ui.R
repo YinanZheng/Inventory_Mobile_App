@@ -13,8 +13,7 @@ ui <- f7Page(
     # 选项卡
     f7Tabs(
       animated = TRUE,  # 添加动画切换
-      swipeable = TRUE, # 允许手势滑动切换
-      
+
       # 主页
       f7Tab(
         tabName = "主页",
