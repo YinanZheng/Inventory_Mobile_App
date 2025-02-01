@@ -1,4 +1,4 @@
-ui <- f7Page(
+f7Page(
   title = "库存管理系统（移动端）",
   options = list(dark = FALSE),
   
@@ -12,7 +12,7 @@ ui <- f7Page(
     
     # 主页面选项卡
     f7Tabs(
-      animated = TRUE,  # 保留动画效果，去掉 swipeable
+      animated = TRUE,
       
       # 首页功能图标
       f7Tab(
@@ -30,11 +30,13 @@ ui <- f7Page(
             # 物品搜索图标
             div(
               style = "text-align: center; margin: 10px;",
-              f7Link(
-                label = NULL,
-                href = "#search",  # 跳转到物品搜索页面
-                icon = f7Icon("search"),
-                style = "font-size: 36px; color: #007BFF;"
+              div(
+                style = "font-size: 36px; color: #007BFF;",  # 设置样式在外层 div
+                f7Link(
+                  label = NULL,
+                  href = "#search",  # 跳转到物品搜索页面
+                  icon = f7Icon("search")
+                )
               ),
               div(style = "margin-top: 5px;", "物品搜索")
             ),
@@ -42,11 +44,13 @@ ui <- f7Page(
             # 其他功能图标（可扩展）
             div(
               style = "text-align: center; margin: 10px;",
-              f7Link(
-                label = NULL,
-                href = "#other-feature",  # 跳转到其他功能页面（占位）
-                icon = f7Icon("cube_box"),
-                style = "font-size: 36px; color: #007BFF;"
+              div(
+                style = "font-size: 36px; color: #007BFF;",
+                f7Link(
+                  label = NULL,
+                  href = "#other-feature",  # 跳转到其他功能页面（占位）
+                  icon = f7Icon("cube_box")
+                )
               ),
               div(style = "margin-top: 5px;", "其他功能")
             )
@@ -60,7 +64,7 @@ ui <- f7Page(
         icon = f7Icon("search"),
         active = FALSE,
         
-        # 固定搜索框
+        # 搜索框
         div(
           style = "position: fixed; top: 40px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 10px 10px 5px; border-bottom: 1px solid #ccc;",
           f7Block(
