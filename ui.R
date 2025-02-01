@@ -1,5 +1,5 @@
 ui <- f7Page(
-  title = "库存 & 订单查询",
+  title = "库存管理系统（移动端）",
   allowPWA = TRUE,
   
   f7TabLayout(
@@ -27,14 +27,13 @@ ui <- f7Page(
             f7Button("search_item", "🔎 查询", color = "green", fill = TRUE),
             br(),
             uiOutput("item_result")
-            # 移除了 plotlyOutput("inventory_status_chart")
           )
         ),
         
         # 订单搜索页面
         f7Tab(
           tabName = "订单搜索",
-          icon = f7Icon("cart", color = "red"),
+          icon = f7Icon("cart", color = "blue"),
           
           f7Block(
             strong = TRUE,
