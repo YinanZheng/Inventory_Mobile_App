@@ -21,7 +21,10 @@ ui <- f7Page(
           placeholder = "输入 SKU 或 物品名..."
         )
       ),
-      f7Button(inputId = "search_btn", label = "查询", color = "blue", style = "width: 100%; margin-top: 10px;")
+      div(
+        style = "margin-top: 10px;",  # 使用 div 控制间距
+        f7Button(inputId = "search_btn", label = "查询", color = "blue")
+      )
     ),
     
     # 物品信息显示
