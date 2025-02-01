@@ -9,10 +9,10 @@ ui <- f7Page(
       shadow = TRUE
     ),
     
-    # 将所有 f7Tab 子组件包装在 list() 中，避免内部类型检查错误
+    # 在 shinyMobile 2.0.1 中，f7Tabs() 必须使用 tabs 参数传入列表
     f7Tabs(
       animated = TRUE,
-      list(
+      tabs = list(
         # 物品搜索页面
         f7Tab(
           tabName = "物品搜索",
@@ -21,18 +21,18 @@ ui <- f7Page(
             strong = TRUE,
             inset = TRUE,
             tags$h3("🔍 搜索库存", style = "color: #007AFF; text-align: center;"),
-            # 优化输入框样式：背景白色、文字黑色
+            # 优化输入框样式：背景白色，文字黑色
             f7Text("search_sku", "输入 SKU", style = "background-color: #fff; color: #000;"),
             f7Text("search_name", "输入物品名称（可选）", style = "background-color: #fff; color: #000;"),
             br(),
             f7Button("search_item", "🔎 查询", color = "green", fill = TRUE),
             br(),
-            # 用于展示物品详细信息（图片和表格）
+            # 查询结果：包含图片和详细信息的表格
             uiOutput("query_item_info")
           )
         ),
         
-        # 订单搜索页面（示例中未整合查询逻辑，可根据需要扩展）
+        # 订单搜索页面（示例中未实现具体查询逻辑，可根据需要扩展）
         f7Tab(
           tabName = "订单搜索",
           icon = f7Icon("cart", color = "red"),
