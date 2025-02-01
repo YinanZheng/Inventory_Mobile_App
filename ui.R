@@ -12,7 +12,7 @@ ui <- f7Page(
     
     # 固定搜索框
     div(
-      style = "position: fixed; top: 45px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 10px 10px 5px; border-bottom: 1px solid #ccc;",  # 增加顶部间距
+      style = "position: fixed; top: 40px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 10px 10px 5px; border-bottom: 1px solid #ccc;",  # 增加顶部间距
       f7Block(
         strong = FALSE,  # 不需要强调样式
         inset = FALSE,  # 不嵌入边距
