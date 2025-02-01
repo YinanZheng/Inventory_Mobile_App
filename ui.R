@@ -13,7 +13,8 @@ ui <- f7Page(
     # 主要功能页面
     f7Tabs(
       swipeable = TRUE,
-
+      animated = FALSE,
+      
       # 商品搜索
       f7Tab(
         tabName = "商品搜索",
