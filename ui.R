@@ -14,7 +14,7 @@ ui <- f7Page(
       strong = TRUE,
       inset = TRUE,
       div(
-        style = "border: 1px solid #ccc; border-radius: 8px; padding: 2px; background-color: #fff;",
+        style = "border: 1px solid #ccc; border-radius: 8px; padding: 10px; background-color: #fff; margin: 10px;",
         f7Text(
           inputId = "search_sku",
           label = NULL,
