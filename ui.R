@@ -10,7 +10,7 @@ ui <- f7Page(
     f7Tabs(
       id = "tabs",
       swipeable = FALSE,
-      animated = TRUE,
+      animated = FALSE,
       
       # 商品搜索页面，内部 tabName 用纯英文标识
       f7Tab(
@@ -56,14 +56,6 @@ ui <- f7Page(
           "这里是订单管理页面"
         )
       )
-    ),
-    
-    # 底部导航栏，tab 参数对应内部的 tabName（纯英文）
-    f7Toolbar(
-      position = "bottom",
-      icons = TRUE,
-      f7TabLink(tab = "tab_search", icon = f7Icon("search"), label = "商品"),
-      f7TabLink(tab = "tab_orders", icon = f7Icon("cart"), label = "订单")
     )
   )
 )
