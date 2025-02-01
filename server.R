@@ -12,57 +12,84 @@ server <- function(input, output, session) {
   observeEvent(input$search_item, {
     req(input$search_sku != "" | input$search_name != "")
     
+    sku <- input$search_sku
+    
     query <- paste0("
-      SELECT i.SKU, i.ItemName, i.Maker, i.MajorType, i.MinorType, i.ProductCost, i.ShippingCost, i.ItemImagePath, 
-             u.Status, u.Defect, u.DefectNotes
+      SELECT i.SKU, i.ItemName, i.Maker, i.MajorType, i.MinorType, i.ProductCost, i.ShippingCost, i.Quantity, i.ItemImagePath
       FROM inventory i
-      LEFT JOIN unique_items u ON i.SKU = u.SKU
-      WHERE i.SKU = '", input$search_sku, "' 
+      WHERE i.SKU = '", sku, "' 
          OR i.ItemName LIKE '%", input$search_name, "%'
     ")
     
-    result <- tryCatch({
-      dbGetQuery(con, query)
-    }, error = function(e) {
-      showNotification("查询失败，请检查数据库连接或查询条件！", type = "error")
-      return(NULL)
-    })
+    sku_data <- dbGetQuery(con, query)
     
-    if (is.null(result) || nrow(result) == 0) {
+    if (nrow(sku_data) == 0) {
       output$item_result <- renderUI(tags$p("未找到该物品", style = "color: red;"))
       return()
     }
     
+    # 计算库存状态
+    sku_stats <- dbGetQuery(con, paste0("
+      SELECT Status, COUNT(*) AS Count
+      FROM unique_items
+      WHERE SKU = '", sku, "'
+      GROUP BY Status
+    "))
+    
+    status_levels <- c("采购", "国内入库", "国内售出", "国内出库", "美国入库", "美国调货", "美国发货", "退货")
+    status_colors <- c("lightgray", "#c7e89b", "#9ca695", "#46a80d", "#6f52ff", "#529aff", "#faf0d4", "red")
+    
+    inventory_status_data <- merge(
+      data.frame(Status = status_levels),
+      sku_stats,
+      by = "Status",
+      all.x = TRUE
+    )
+    inventory_status_data$Count[is.na(inventory_status_data$Count)] <- 0
+    inventory_status_data <- inventory_status_data[match(status_levels, inventory_status_data$Status), ]
+    
+    img_path <- ifelse(
+      is.na(sku_data$ItemImagePath[1]),
+      placeholder_150px_path,
+      paste0(host_url, "/images/", basename(sku_data$ItemImagePath[1]))
+    )
+    
     output$item_result <- renderUI({
-      tagList(
-        lapply(1:nrow(result), function(i) {
-          item_img_path <- ifelse(
-            is.na(result$ItemImagePath[i]) || result$ItemImagePath[i] == "",
-            placeholder_150px_path,
-            paste0(host_url, "/images/", basename(result$ItemImagePath[i]))
+      div(
+        style = "display: flex; flex-direction: column; align-items: center; padding: 10px;",
+        div(
+          style = "text-align: center; margin-bottom: 10px;",
+          tags$img(src = img_path, height = "150px", style = "border: 1px solid #ddd; border-radius: 8px;")
+        ),
+        div(
+          style = "width: 100%; padding-left: 10px;",
+          tags$table(
+            style = "width: 100%; border-collapse: collapse;",
+            tags$tr(tags$td(tags$b("商品名称：")), tags$td(sku_data$ItemName[1])),
+            tags$tr(tags$td(tags$b("供应商：")), tags$td(sku_data$Maker[1])),
+            tags$tr(tags$td(tags$b("分类：")), tags$td(paste(sku_data$MajorType[1], "/", sku_data$MinorType[1]))),
+            tags$tr(tags$td(tags$b("平均成本：")), tags$td(sprintf("¥%.2f", sku_data$ProductCost[1]))),
+            tags$tr(tags$td(tags$b("平均运费：")), tags$td(sprintf("¥%.2f", sku_data$ShippingCost[1]))),
+            tags$tr(tags$td(tags$b("库存总数：")), tags$td(sku_data$Quantity[1]))
           )
-          
-          defect_info <- paste(
-            "瑕疵情况:", result$Defect[i], 
-            ifelse(is.na(result$DefectNotes[i]) || result$DefectNotes[i] == "", "（无备注）", paste0("（", result$DefectNotes[i], "）"))
-          )
-          
-          f7Card(
-            title = result$ItemName[i],
-            f7Block(
-              f7Row(
-                f7Col(width = 4, 
-                      tags$a(tags$img(src = item_img_path, width = "100%", onclick = paste0("openImage('", item_img_path, "')")))),  # ✅ 点击放大
-                f7Col(width = 8, 
-                      tags$p(paste("供应商:", result$Maker[i])),
-                      tags$p(paste("分类:", result$MajorType[i], "/", result$MinorType[i])),
-                      tags$p(paste("价格:", result$ProductCost[i], "元")),
-                      tags$p(defect_info))
-              )
-            )
-          )
-        })
+        )
       )
+    })
+    
+    # 渲染库存状态图表
+    output$inventory_status_chart <- renderPlotly({
+      plot_ly(
+        data = inventory_status_data,
+        labels = ~Status,
+        values = ~Count,
+        type = "pie",
+        textinfo = "label+value",
+        hoverinfo = "label+percent+value",
+        insidetextorientation = "auto",
+        textposition = "inside",
+        marker = list(colors = status_colors)
+      ) %>%
+        layout(showlegend = FALSE)
     })
   })
   
