@@ -28,14 +28,14 @@ ui <- f7Page(
             # 物品搜索按钮
             div(
               style = "text-align: center;",
-              f7Link(
-                inputId = "go_to_search",
-                label = NULL,
-                href = "#",  # 让链接生效
-                icon = f7Icon("search"),
-                style = "font-size: 36px; color: #007BFF;"
-              ),
-              div(style = "margin-top: 5px;", "物品搜索")
+              div(
+                style = "font-size: 36px; color: #007BFF;",
+                f7Link(
+                  label = "物品搜索",
+                  href = "#tab-物品搜索",
+                  icon = f7Icon("search")
+                )
+              )
             )
           )
         )
