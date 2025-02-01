@@ -16,7 +16,7 @@ ui <- f7Page(
       style = "padding: 0; margin: 0;",
       
       div(
-        style = "display: flex; align-items: center; justify-content: space-between; padding: 5px 10px;",
+        style = "display: flex; align-items: center; justify-content: space-between; padding: 5px 5px;",
         
         # 输入框
         div(
