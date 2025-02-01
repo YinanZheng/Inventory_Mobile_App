@@ -24,7 +24,10 @@ server <- function(input, output, session) {
       return()
     }
     
-    # 计算库存统计（已修正 sum 逻辑）
+    # **确保 Status 列是字符型**
+    result$Status <- as.character(result$Status)
+    
+    # **计算库存统计**
     stock_summary <- result %>%
       group_by(SKU) %>%  
       summarise(
