@@ -25,21 +25,24 @@ ui <- f7Page(
           style = "position: fixed; top: 40px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 10px; border-bottom: 1px solid #ccc;",
           f7BlockTitle("商品搜索"),
           f7Flex(
-            f7Text(
-              inputId = "search_sku",
-              label = NULL,  # 移除标签
-              placeholder = "输入 SKU / 物品名...",
-              class = "flex-grow-1"  # 输入框占 80%
+            div(
+              style = "flex: 4; margin-right: 5px;",  # 输入框占 80%，间距 5px
+              f7Text(
+                inputId = "search_sku",
+                label = NULL,
+                placeholder = "输入 SKU / 物品名..."
+              )
             ),
-            f7Button(
-              inputId = "search_btn",
-              label = "查询",
-              color = "blue",
-              fill = TRUE,
-              class = "flex-grow-0"  # 按钮占 20%
+            div(
+              style = "flex: 1;",  # 按钮占 20%
+              f7Button(
+                inputId = "search_btn",
+                label = "查询",
+                color = "blue",
+                fill = TRUE
+              )
             )
           )
-          
         ),
         
         # 搜索结果区域
