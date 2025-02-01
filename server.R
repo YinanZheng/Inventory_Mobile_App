@@ -8,7 +8,7 @@ server <- function(input, output, session) {
   observeEvent(input$scan_sku, { session$sendCustomMessage("startScanner", "search_sku") })
   observeEvent(input$scan_order_id, { session$sendCustomMessage("startScanner", "search_order_id") })
   
-  # 物品搜索逻辑（显示所有匹配的物品，并包含瑕疵信息）
+  # 📦 物品搜索逻辑
   observeEvent(input$search_item, {
     req(input$search_sku != "" | input$search_name != "")
     
@@ -21,11 +21,19 @@ server <- function(input, output, session) {
          OR i.ItemName LIKE '%", input$search_name, "%'
     ")
     
-    result <- dbGetQuery(con, query)
+    result <- tryCatch({
+      dbGetQuery(con, query)
+    }, error = function(e) {
+      showNotification("查询失败，请检查数据库连接或查询条件！", type = "error")
+      return(NULL)
+    })
+    
+    if (is.null(result) || nrow(result) == 0) {
+      output$item_result <- renderUI(tags$p("未找到该物品", style = "color: red;"))
+      return()
+    }
     
     output$item_result <- renderUI({
-      if (nrow(result) == 0) return(tags$p("未找到该物品", style = "color: red;"))
-      
       tagList(
         lapply(1:nrow(result), function(i) {
           item_img_path <- ifelse(
@@ -41,18 +49,24 @@ server <- function(input, output, session) {
           
           f7Card(
             title = result$ItemName[i],
-            tags$img(src = item_img_path, width = "100%"),
-            f7Text("供应商:", result$Maker[i]),
-            f7Text("分类:", paste(result$MajorType[i], "/", result$MinorType[i])),
-            f7Text("成本:", paste0(result$ProductCost[i], "元")),
-            f7Text(defect_info)
+            f7Block(
+              f7Row(
+                f7Col(width = 4, 
+                      tags$a(tags$img(src = item_img_path, width = "100%", onclick = paste0("openImage('", item_img_path, "')")))),  # ✅ 点击放大
+                f7Col(width = 8, 
+                      tags$p(paste("供应商:", result$Maker[i])),
+                      tags$p(paste("分类:", result$MajorType[i], "/", result$MinorType[i])),
+                      tags$p(paste("价格:", result$ProductCost[i], "元")),
+                      tags$p(defect_info))
+              )
+            )
           )
         })
       )
     })
   })
   
-  # 订单搜索逻辑（显示所有符合条件的订单）
+  # 📜 订单搜索逻辑
   observeEvent(input$search_order, {
     req(input$search_order_id != "" | input$search_tracking != "")
     
@@ -63,11 +77,19 @@ server <- function(input, output, session) {
          OR UsTrackingNumber = '", input$search_tracking, "'
     ")
     
-    result <- dbGetQuery(con, query)
+    result <- tryCatch({
+      dbGetQuery(con, query)
+    }, error = function(e) {
+      showNotification("订单查询失败，请检查数据库！", type = "error")
+      return(NULL)
+    })
+    
+    if (is.null(result) || nrow(result) == 0) {
+      output$order_result <- renderUI(tags$p("未找到该订单", style = "color: red;"))
+      return()
+    }
     
     output$order_result <- renderUI({
-      if (nrow(result) == 0) return(tags$p("未找到该订单", style = "color: red;"))
-      
       tagList(
         lapply(1:nrow(result), function(i) {
           order_img_path <- ifelse(
@@ -78,12 +100,18 @@ server <- function(input, output, session) {
           
           f7Card(
             title = paste("订单号:", result$OrderID[i]),
-            tags$img(src = order_img_path, width = "100%"),
-            f7Text("物流单号:", result$UsTrackingNumber[i]),
-            f7Text("顾客:", result$CustomerName[i]),
-            f7Text("平台:", result$Platform[i]),
-            f7Text("状态:", result$OrderStatus[i]),
-            f7Text("备注:", ifelse(is.na(result$OrderNotes[i]) || result$OrderNotes[i] == "", "无", result$OrderNotes[i]))
+            f7Block(
+              f7Row(
+                f7Col(width = 4, 
+                      tags$a(tags$img(src = order_img_path, width = "100%", onclick = paste0("openImage('", order_img_path, "')")))),  # ✅ 点击放大
+                f7Col(width = 8, 
+                      tags$p(paste("物流单号:", result$UsTrackingNumber[i])),
+                      tags$p(paste("顾客:", result$CustomerName[i])),
+                      tags$p(paste("平台:", result$Platform[i])),
+                      tags$p(paste("状态:", result$OrderStatus[i])),
+                      tags$p(paste("备注:", ifelse(is.na(result$OrderNotes[i]) || result$OrderNotes[i] == "", "无", result$OrderNotes[i]))))
+              )
+            )
           )
         })
       )

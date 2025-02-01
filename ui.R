@@ -59,16 +59,28 @@ ui <- f7Page(
   tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"),
   tags$script(HTML("
     function startScanner(inputId) {
+      // 确保摄像头权限
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        alert('此设备不支持摄像头访问，请检查权限！');
+        return;
+      }
+  
       navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
         .then(function(stream) {
+          console.log('摄像头访问成功');
           document.getElementById('scanner-container').style.display = 'block';
-          document.getElementById('scanner-video').srcObject = stream;
+          let videoElement = document.getElementById('scanner-video');
+          videoElement.srcObject = stream;
+          videoElement.play();
           document.getElementById('stop-scanner').style.display = 'block';
         })
         .catch(function(err) {
+          console.error('摄像头访问失败:', err);
           alert('无法访问摄像头，请在 Safari 设置中启用摄像头权限！');
+          return;
         });
-
+  
+      // 确保 QuaggaJS 正确初始化
       Quagga.init({
         inputStream: {
           name: 'Live',
@@ -79,30 +91,40 @@ ui <- f7Page(
         decoder: { readers: ['ean_reader', 'code_128_reader'] }
       }, function(err) {
         if (err) {
-          console.error(err);
-          alert('摄像头启动失败！');
+          console.error('QuaggaJS 初始化失败:', err);
+          alert('扫码功能启动失败，请重试！');
           return;
         }
+        console.log('QuaggaJS 启动成功');
         Quagga.start();
       });
-
+  
       Quagga.onDetected(function(result) {
-        var code = result.codeResult.code;
-        Shiny.setInputValue(inputId, code, {priority: 'event'});
+        let code = result.codeResult.code;
+        console.log('扫描结果:', code);
+        Shiny.setInputValue(inputId, code, { priority: 'event' });
         stopScanner();
       });
     }
-
+  
     function stopScanner() {
+      console.log('停止摄像头 & QuaggaJS');
       let video = document.getElementById('scanner-video');
-      let stream = video.srcObject;
-      let tracks = stream.getTracks();
-
-      tracks.forEach(track => track.stop());
-      video.srcObject = null;
-      
+      if (video.srcObject) {
+        let stream = video.srcObject;
+        let tracks = stream.getTracks();
+        tracks.forEach(track => track.stop());
+        video.srcObject = null;
+      }
       document.getElementById('scanner-container').style.display = 'none';
       document.getElementById('stop-scanner').style.display = 'none';
+      Quagga.stop();
+    }
+  
+    function openImage(src) {
+      let newTab = window.open();
+      newTab.document.write('<img src=\"' + src + '\" style=\"width:100%\">');
+      newTab.document.title = '图片预览';
     }
   "))
 )
