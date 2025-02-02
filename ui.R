@@ -43,7 +43,9 @@ ui <- f7Page(
           
           # 标题
           div(
-            style = "text-align: center; font-size: 18px; font-weight: bold; color: white; background: #7598ff; border-radius: 8px; padding: 0px 10px; line-height: 1.2; margin-bottom: 10px; width: 100%; max-width: 300px;",
+            style = "text-align: center; font-size: 20px; font-weight: bold; 
+             color: #333; padding: 12px 0; border-bottom: 3px solid #007aff; 
+             width: 100%; max-width: 500px;",
             "商品库存查询"
           ),
           
