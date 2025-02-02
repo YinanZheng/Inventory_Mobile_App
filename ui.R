@@ -32,7 +32,7 @@ ui <- f7Page(
         div(
           style = "
             position: fixed; 
-            top: 40px;  /* 向下移动，留出顶部空间 */
+            top: 50px;  /* 向下移动，留出顶部空间 */
             left: 10px; 
             right: 10px; 
             z-index: 1000; 
@@ -51,7 +51,7 @@ ui <- f7Page(
         
         # 固定搜索框
         div(
-          style = "position: fixed; top: 80px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 5px 5px; border-bottom: 1px solid #ccc; display: flex; align-items: stretch;",
+          style = "position: fixed; top: 90px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 5px 5px; border-bottom: 1px solid #ccc; display: flex; align-items: stretch;",
           div(
             style = "flex: 1; min-width: 0;",
             f7Text(
@@ -63,7 +63,7 @@ ui <- f7Page(
         ),
         
         # 占位符，避免内容被搜索框遮挡
-        div(style = "height: 80px;"),
+        div(style = "height: 100px;"),
         
         # 让整个页面滚动，而不是搜索结果区域
         div(

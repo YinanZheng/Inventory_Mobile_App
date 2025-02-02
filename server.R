@@ -64,7 +64,7 @@ server <- function(input, output, session) {
         f7Block(
           strong = TRUE,
           inset = TRUE,
-          style = "border: 1px solid #ccc; border-radius: 10px; margin-bottom: 15px; padding: 10px; background-color: #fff;",
+          style = "border: 1px solid #ccc; border-radius: 10px; margin-bottom: 10px; padding: 10px; background-color: #fff;",
           
           # 物品信息
           div(
