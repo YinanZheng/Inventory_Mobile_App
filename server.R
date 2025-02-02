@@ -48,7 +48,7 @@ server <- function(input, output, session) {
       )
     
     # 渲染搜索结果
-    output$search_results <- renderUI({
+    output$item_search_results <- renderUI({
       lapply(1:nrow(result), function(i) {
         item <- result[i, ]
         stock <- stock_summary %>% filter(SKU == item$SKU)
