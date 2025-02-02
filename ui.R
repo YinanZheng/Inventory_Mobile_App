@@ -20,6 +20,20 @@ ui <- f7Page(
         tabName = "商品搜索",
         icon = f7Icon("search"),
         
+        tags$style(HTML("
+          /* 调整 f7Text 输入框整体的外边距和内边距 */
+          .item-input {
+            margin: 0 !important;  /* 移除默认外边距 */
+            padding: 5px 10px !important;  /* 减小内边距 */
+            box-sizing: border-box;  /* 确保边框和内边距不会叠加 */
+          }
+          /* 调整输入框容器的高度 */
+          .item-inner {
+            padding: 0 !important; /* 减少内间距 */
+            height: auto !important; /* 自动适应高度 */
+          }
+        ")),
+        
         # 固定搜索框
         div(
           style = "position: fixed; top: 40px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 5px 10px; border-bottom: 1px solid #ccc; display: flex; align-items: stretch;",
