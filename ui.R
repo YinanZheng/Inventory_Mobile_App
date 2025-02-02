@@ -35,7 +35,7 @@ ui <- f7Page(
         ),
         
         # 占位符，避免内容被搜索框遮挡
-        div(style = "height: 70px;"),
+        div(style = "height: 90px;"),
         
         # 让整个页面滚动，而不是搜索结果区域
         div(
