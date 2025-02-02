@@ -64,7 +64,7 @@ ui <- f7Page(
           div(
             style = "width: 100%; max-width: 500px;",
             f7Text(
-              inputId = "search_sku",
+              inputId = "search_sku_item",
               label = NULL,
               placeholder = "输入 SKU / 物品名..."
             )
@@ -113,9 +113,9 @@ ui <- f7Page(
           div(
             style = "width: 100%; max-width: 500px;",
             f7Text(
-              inputId = "search_sku",
+              inputId = "search_order_label",
               label = NULL,
-              placeholder = "输入 SKU / 物品名..."
+              placeholder = "输入 订单号 / 运单号..."
             )
           )
         )
