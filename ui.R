@@ -5,7 +5,7 @@ ui <- f7Page(
   # 采用 f7TabLayout，带有底部导航栏
   f7TabLayout(
     navbar = f7Navbar(
-      title = "库存管理系统",
+      title = "库存管理系统（移动端）",
       hairline = FALSE,
       shadow = TRUE
     ),
@@ -26,17 +26,16 @@ ui <- f7Page(
           .list {
             margin: 0 !important;
             padding: 10px !important;
-          /* 输入框的实际内容 */
-          .item-input-wrap {
-            margin: 0 !important;
-            padding: 0 !important;
-          }
         ")),
         
         # 固定搜索框
         div(
           style = "position: fixed; top: 50px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 5px 5px; border-bottom: 1px solid #ccc; display: flex; align-items: stretch;",
           
+          div(
+            style = "position: fixed; top: 10px; left: 0; right: 0; z-index: 1000; text-align: center; font-size: 18px; font-weight: bold; color: #333; background-color: #f7f7f8; padding: 5px 0; border-bottom: 1px solid #ccc;",
+            "商品库存查询"
+          ),
           div(
             style = "flex: 1; min-width: 0;",
             f7Text(
