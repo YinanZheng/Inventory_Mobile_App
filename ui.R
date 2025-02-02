@@ -27,12 +27,6 @@ ui <- f7Page(
             margin: 0 !important;
             padding: 10px !important;
           }
-          /* 紧凑调整 item-content */
-          .item-content {
-            margin: 0 !important;
-            padding: 0px 0 !important; /* 减少上下空隙 */
-            box-sizing: border-box;
-          }
           /* 输入框样式调整 */
           .item-inner {
             padding: 0 !important;
