@@ -28,14 +28,15 @@ ui <- f7Page(
             padding: 10px !important;
         ")),
         
+        # 页面标题
+        div(
+          style = "position: fixed; top: 10px; left: 0; right: 0; z-index: 1000; text-align: center; font-size: 18px; font-weight: bold; color: #333; background-color: #f7f7f8; padding: 5px 0; border-bottom: 1px solid #ccc;",
+          "商品查询"
+        ),
+        
         # 固定搜索框
         div(
           style = "position: fixed; top: 50px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 5px 5px; border-bottom: 1px solid #ccc; display: flex; align-items: stretch;",
-          
-          div(
-            style = "position: fixed; top: 10px; left: 0; right: 0; z-index: 1000; text-align: center; font-size: 18px; font-weight: bold; color: #333; background-color: #f7f7f8; padding: 5px 0; border-bottom: 1px solid #ccc;",
-            "商品库存查询"
-          ),
           div(
             style = "flex: 1; min-width: 0;",
             f7Text(
