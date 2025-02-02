@@ -1,5 +1,7 @@
 ui <- f7Page(
   title = "库存管理系统（移动端）",
+  allowPWA = TRUE,  # ✅ 启用 PWA
+  
   options = list(dark = FALSE),
   
   # 采用 f7TabLayout，带有底部导航栏
