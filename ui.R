@@ -36,7 +36,7 @@ ui <- f7Page(
         
         # 搜索结果区域，避免遮挡
         div(
-          style = "padding-top: 70px; padding-bottom: 60px; overflow-y: auto; max-height: calc(100vh - 120px);",
+          style = "padding-top: 160px; padding-bottom: 60px; overflow-y: auto; max-height: calc(100vh - 120px);",
           uiOutput("search_results")
         )
       ),
