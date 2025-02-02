@@ -25,7 +25,7 @@ ui <- f7Page(
           /* 移除输入框外层多余的边距 */
           .list {
             margin: 0 !important;
-            padding: 0 !important;
+            padding: 10px !important;
           }
           /* 紧凑调整 item-content */
           .item-content {
@@ -47,7 +47,7 @@ ui <- f7Page(
         
         # 固定搜索框
         div(
-          style = "position: fixed; top: 20px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 5px 10px; border-bottom: 1px solid #ccc; display: flex; align-items: stretch;",
+          style = "position: fixed; top: 50px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 5px 10px; border-bottom: 1px solid #ccc; display: flex; align-items: stretch;",
           
           div(
             style = "flex: 1; min-width: 0;",
