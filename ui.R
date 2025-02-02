@@ -33,7 +33,6 @@ ui <- f7Page(
           style = "
             position: fixed; 
             top: 42px;  /* 向下移动，留出顶部空间 */
-            padding: 10px;
             left: 10px; 
             right: 10px; 
             z-index: 1000; 
@@ -41,10 +40,9 @@ ui <- f7Page(
             font-size: 20px; 
             font-weight: bold; 
             color: white; 
-            background: linear-gradient(90deg, #4a90e2, #007aff); 
+            background: #f7f7f8; 
             border-radius: 8px; 
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-            padding: 5px; 
+            padding: 10px; 
             line-height: 1.5;
           ",
           "商品库存查询"
