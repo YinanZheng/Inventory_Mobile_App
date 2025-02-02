@@ -85,40 +85,39 @@ ui <- f7Page(
       f7Tab(
         tabName = "订单查询",
         icon = f7Icon("cube_box"),
-        div("测试文本 - 订单查询 UI")
-        
-        # # 固定搜索框
-        # div(
-        #   style = "position: fixed; top: 100px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 10px 5px; border-bottom: 1px solid #ccc; display: flex; flex-direction: column; align-items: center;",
-        #   
-        #   # 标题
-        #   div(
-        #     style = "
-        #       text-align: center; 
-        #       font-size: 18px; 
-        #       font-weight: bold; 
-        #       color: white; 
-        #       background: #7598ff; 
-        #       border-radius: 8px; 
-        #       padding: 0px 10px; 
-        #       line-height: 1.2; 
-        #       margin-bottom: 10px; 
-        #       width: 100%; 
-        #       max-width: 300px;
-        #     ",
-        #     "订单状态查询"
-        #   ),
-        #   
-        #   # 输入框
-        #   div(
-        #     style = "width: 100%; max-width: 500px;",
-        #     f7Text(
-        #       inputId = "search_order_label",
-        #       label = NULL,
-        #       placeholder = "输入 订单号 / 运单号..."
-        #     )
-        #   )
-        # ),
+
+        # 固定搜索框
+        div(
+          style = "position: fixed; top: 100px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 10px 5px; border-bottom: 1px solid #ccc; display: flex; flex-direction: column; align-items: center;",
+
+          # 标题
+          div(
+            style = "
+              text-align: center;
+              font-size: 18px;
+              font-weight: bold;
+              color: white;
+              background: #7598ff;
+              border-radius: 8px;
+              padding: 0px 10px;
+              line-height: 1.2;
+              margin-bottom: 10px;
+              width: 100%;
+              max-width: 300px;
+            ",
+            "订单状态查询"
+          ),
+
+          # 输入框
+          div(
+            style = "width: 100%; max-width: 500px;",
+            f7Text(
+              inputId = "search_order_label",
+              label = NULL,
+              placeholder = "输入 订单号 / 运单号..."
+            )
+          )
+        ),
         # 
         # # 占位符，避免内容被搜索框遮挡
         # div(style = "height: 100px;"),
