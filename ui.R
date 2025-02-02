@@ -40,7 +40,7 @@ ui <- f7Page(
             font-size: 20px; 
             font-weight: bold; 
             color: white; 
-            background: #f7f7f8; 
+            background: #7598ff; 
             border-radius: 8px; 
             padding: 10px; 
             line-height: 1.5;
