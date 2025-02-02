@@ -12,6 +12,15 @@ ui <- f7Page(
       shadow = TRUE
     ),
     
+    # ✅ 添加 PWA 资源
+    tags$head(
+      tags$link(rel = "manifest", href = "www/manifest.webmanifest"),
+      tags$script(src = "www/service-worker.js"),
+      tags$meta(name = "apple-mobile-web-app-capable", content = "yes"),
+      tags$meta(name = "apple-mobile-web-app-status-bar-style", content = "black-translucent"),
+      tags$meta(name = "apple-mobile-web-app-title", content = "库存管理")
+    ),
+    
     # 主要功能页面
     f7Tabs(
       swipeable = FALSE,
