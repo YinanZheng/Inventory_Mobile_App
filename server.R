@@ -187,11 +187,10 @@ server <- function(input, output, session) {
             div(
               style = "flex: 3; padding-left: 10px;",
               tags$h4(paste("订单号:", order$OrderID), style = "margin: 5px 0; font-size: 16px; font-weight: bold;"),
-              tags$p(paste("客户名:", order$CustomerName), style = "margin: 2px 0; font-size: 14px; color: #555;"),
+              tags$p(paste("客户:", order$CustomerName), style = "margin: 2px 0; font-size: 14px; color: #555;"),
               tags$p(paste("平台:", order$Platform), style = "margin: 2px 0; font-size: 14px; color: #555;"),
-              tags$p(paste("订单状态:", order$OrderStatus), style = "margin: 2px 0; font-size: 14px; color: #555;"),
-              tags$p(paste("备注:", ifelse(is.na(order$OrderNotes) || order$OrderNotes == "", "无", order$OrderNotes)), 
-                     style = "margin: 2px 0; font-size: 14px; color: #333; font-weight: bold;")
+              tags$p(paste("状态:", order$OrderStatus),   style = "margin: 2px 0; font-size: 14px; font-weight: bold; color: #007aff;"),
+              tags$p(paste("备注:", ifelse(is.na(order$OrderNotes) || order$OrderNotes == "", "无", order$OrderNotes)), style = "margin: 2px 0; font-size: 14px; color: #333;")
             )
           ),
           
@@ -202,10 +201,10 @@ server <- function(input, output, session) {
               style = "width: 100%; border-collapse: collapse; text-align: left;",
               tags$thead(
                 tags$tr(
-                  tags$th(style = "border-bottom: 2px solid #ccc; padding: 8px;", "商品图片"),
+                  tags$th(style = "border-bottom: 2px solid #ccc; padding: 8px;", "图片"),
                   tags$th(style = "border-bottom: 2px solid #ccc; padding: 8px;", "SKU"),
-                  tags$th(style = "border-bottom: 2px solid #ccc; padding: 8px;", "商品名称"),
-                  tags$th(style = "border-bottom: 2px solid #ccc; padding: 8px;", "商品状态")
+                  tags$th(style = "border-bottom: 2px solid #ccc; padding: 8px;", "名称"),
+                  tags$th(style = "border-bottom: 2px solid #ccc; padding: 8px;", "状态")
                 )
               ),
               tags$tbody(
