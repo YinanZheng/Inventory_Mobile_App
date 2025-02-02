@@ -30,7 +30,7 @@ ui <- f7Page(
           /* 紧凑调整 item-content */
           .item-content {
             margin: 0 !important;
-            padding: 10px 0 !important; /* 减少上下空隙 */
+            padding: 0px 0 !important; /* 减少上下空隙 */
             box-sizing: border-box;
           }
           /* 输入框样式调整 */
@@ -60,7 +60,7 @@ ui <- f7Page(
         ),
         
         # 占位符，避免内容被搜索框遮挡
-        div(style = "height: 120px;"),
+        div(style = "height: 100px;"),
         
         # 让整个页面滚动，而不是搜索结果区域
         div(
