@@ -31,27 +31,27 @@ ui <- f7Page(
         # 页面标题
         div(
           style = "
-    position: fixed; 
-    top: 40px;  /* 向下移动，留出顶部空间 */
-    left: 10px; 
-    right: 10px; 
-    z-index: 1000; 
-    text-align: center; 
-    font-size: 20px; 
-    font-weight: bold; 
-    color: white; 
-    background: linear-gradient(90deg, #4a90e2, #007aff); 
-    border-radius: 8px; 
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-    padding: 10px; 
-    line-height: 1.5;
-  ",
+            position: fixed; 
+            top: 40px;  /* 向下移动，留出顶部空间 */
+            left: 10px; 
+            right: 10px; 
+            z-index: 1000; 
+            text-align: center; 
+            font-size: 20px; 
+            font-weight: bold; 
+            color: white; 
+            background: linear-gradient(90deg, #4a90e2, #007aff); 
+            border-radius: 8px; 
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+            padding: 5px; 
+            line-height: 1.5;
+          ",
           "商品库存查询"
         ),
         
         # 固定搜索框
         div(
-          style = "position: fixed; top: 70px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 5px 5px; border-bottom: 1px solid #ccc; display: flex; align-items: stretch;",
+          style = "position: fixed; top: 80px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 5px 5px; border-bottom: 1px solid #ccc; display: flex; align-items: stretch;",
           div(
             style = "flex: 1; min-width: 0;",
             f7Text(
