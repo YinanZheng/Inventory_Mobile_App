@@ -27,11 +27,11 @@ ui <- f7Page(
             margin: 0 !important;
             padding: 10px !important;
           }
-          /* 输入框样式调整 */
-          .item-inner {
-            padding: 0 !important;
-            height: auto !important;
-          }
+          # /* 输入框样式调整 */
+          # .item-inner {
+          #   padding: 0 !important;
+          #   height: auto !important;
+          # }
           /* 输入框的实际内容 */
           .item-input-wrap {
             margin: 0 !important;
@@ -54,7 +54,7 @@ ui <- f7Page(
         ),
         
         # 占位符，避免内容被搜索框遮挡
-        div(style = "height: 100px;"),
+        div(style = "height: 80px;"),
         
         # 让整个页面滚动，而不是搜索结果区域
         div(
