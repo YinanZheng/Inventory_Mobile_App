@@ -127,8 +127,8 @@ server <- function(input, output, session) {
   
   # 监听 debounce_order_search 的变化，执行订单查询
   observe({
-    req(debounce_search())
-    search_query <- debounce_search()
+    req(debounce_order_search())
+    search_query <- debounce_order_search()
     
     query <- paste0("
       SELECT 
