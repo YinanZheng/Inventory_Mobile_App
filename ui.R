@@ -87,8 +87,8 @@ ui <- f7Page(
         icon = f7Icon("cube_box"),
 
         # # 固定搜索框
-        # div(
-        #   style = "position: fixed; top: 100px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 10px 5px; border-bottom: 1px solid #ccc; display: flex; flex-direction: column; align-items: center;",
+        div(
+          style = "position: fixed; top: 100px; left: 0; right: 0; z-index: 2000; background-color: #f7f7f8; padding: 10px 5px; border-bottom: 1px solid #ccc; display: flex; flex-direction: column; align-items: center;",
 
           # 标题
           div(
@@ -117,7 +117,7 @@ ui <- f7Page(
               placeholder = "输入 订单号 / 运单号..."
             )
           )
-        # ),
+        ),
         # 
         # # 占位符，避免内容被搜索框遮挡
         # div(style = "height: 100px;"),
