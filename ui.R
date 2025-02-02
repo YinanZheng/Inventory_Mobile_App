@@ -34,9 +34,9 @@ ui <- f7Page(
           )
         ),
         
-        # 搜索结果区域
+        # 搜索结果区域，避免遮挡
         div(
-          style = "padding: 10px; overflow-y: auto;",
+          style = "padding-top: 70px; padding-bottom: 60px; overflow-y: auto; max-height: calc(100vh - 120px);",
           uiOutput("search_results")
         )
       ),
