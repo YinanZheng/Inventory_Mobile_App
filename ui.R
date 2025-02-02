@@ -30,31 +30,37 @@ ui <- f7Page(
         
         # 固定搜索框
         div(
-          style = "position: fixed; top: 40px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 5px 5px; border-bottom: 1px solid #ccc; display: flex; align-items: stretch;",
+          style = "position: fixed; top: 40px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 10px 5px; border-bottom: 1px solid #ccc; display: flex; flex-direction: column; align-items: center;",
+          
+          # 标题
           div(
             style = "
-              text-align: center; 
-              font-size: 20px; 
-              font-weight: bold; 
-              color: white; 
-              background: #7598ff; 
-              border-radius: 8px; 
-              padding: 5px 10px; 
-              line-height: 1.5; 
-              width: 100%; 
-              max-width: 300px;
-            ",
+      text-align: center; 
+      font-size: 18px; 
+      font-weight: bold; 
+      color: white; 
+      background: #7598ff; 
+      border-radius: 8px; 
+      padding: 5px 10px; 
+      line-height: 1.2; 
+      margin-bottom: 10px; 
+      width: 100%; 
+      max-width: 300px;
+    ",
             "商品库存查询"
           ),
+          
+          # 输入框
           div(
-            style = "flex: 1; min-width: 0;",
+            style = "width: 100%; max-width: 500px;",
             f7Text(
               inputId = "search_sku",
               label = NULL,
               placeholder = "输入 SKU / 物品名..."
             )
           )
-        ),
+        )
+        ,
         
         # 占位符，避免内容被搜索框遮挡
         div(style = "height: 100px;"),
