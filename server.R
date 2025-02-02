@@ -187,6 +187,7 @@ server <- function(input, output, session) {
             div(
               style = "flex: 3; padding-left: 10px;",
               tags$h4(paste("订单号:", order$OrderID), style = "margin: 5px 0; font-size: 16px; font-weight: bold;"),
+              tags$p(paste("运单号:", ifelse(is.na(order$UsTrackingNumber) || order$UsTrackingNumber == "", "无", order$UsTrackingNumber)),style = "margin: 2px 0; font-size: 14px; color: #555;"),
               tags$p(paste("客户:", order$CustomerName), style = "margin: 2px 0; font-size: 14px; color: #555;"),
               tags$p(paste("平台:", order$Platform), style = "margin: 2px 0; font-size: 14px; color: #555;"),
               tags$p(paste("状态:", order$OrderStatus),   style = "margin: 2px 0; font-size: 14px; font-weight: bold; color: #007aff;"),
