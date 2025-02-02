@@ -69,8 +69,7 @@ ui <- f7Page(
               placeholder = "输入 SKU / 物品名..."
             )
           )
-        )
-        ,
+        ),
         
         # 占位符，避免内容被搜索框遮挡
         div(style = "height: 100px;"),
@@ -118,8 +117,7 @@ ui <- f7Page(
               placeholder = "输入 订单号 / 运单号..."
             )
           )
-        )
-        ,
+        ),
         
         # 占位符，避免内容被搜索框遮挡
         div(style = "height: 100px;"),
