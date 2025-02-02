@@ -42,7 +42,6 @@ ui <- f7Page(
             color: white; 
             background: #7598ff; 
             border-radius: 8px; 
-            margin: 5px;
             padding: 5px; 
             line-height: 1.5;
           ",
