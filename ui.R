@@ -30,7 +30,7 @@ ui <- f7Page(
           /* 紧凑调整 item-content */
           .item-content {
             margin: 0 !important;
-            padding: 5px 0 !important; /* 减少上下空隙 */
+            padding: 10px 0 !important; /* 减少上下空隙 */
             box-sizing: border-box;
           }
           /* 输入框样式调整 */
@@ -47,7 +47,7 @@ ui <- f7Page(
         
         # 固定搜索框
         div(
-          style = "position: fixed; top: 40px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 5px 10px; border-bottom: 1px solid #ccc; display: flex; align-items: stretch;",
+          style = "position: fixed; top: 20px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 5px 10px; border-bottom: 1px solid #ccc; display: flex; align-items: stretch;",
           
           div(
             style = "flex: 1; min-width: 0;",
