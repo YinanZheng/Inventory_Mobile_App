@@ -127,17 +127,18 @@ server <- function(input, output, session) {
   
   # 监听 debounce_order_search 的变化，执行订单查询
   observe({
-    req(debounce_order_search())
-    
-    search_query <- debounce_order_search()
+    req(debounce_search())
+    search_query <- debounce_search()
     
     query <- paste0("
       SELECT 
         o.OrderID, o.UsTrackingNumber, o.CustomerName, o.CustomerNetName, 
         o.Platform, o.OrderImagePath, o.OrderNotes, o.OrderStatus, 
-        u.SKU, u.Status, u.ProductCost, u.DomesticShippingCost, u.ItemImagePath
+        u.SKU, u.Status, u.ProductCost, u.DomesticShippingCost, 
+        i.ItemName, i.ItemImagePath  -- ✅ 修正图片字段，来自 inventory
       FROM orders o
       LEFT JOIN unique_items u ON o.OrderID = u.OrderID
+      LEFT JOIN inventory i ON u.SKU = i.SKU  -- ✅ 关联 inventory 以获取商品信息
       WHERE o.OrderID = '", search_query, "' 
          OR o.UsTrackingNumber = '", search_query, "'
     ")
@@ -150,7 +151,7 @@ server <- function(input, output, session) {
       return()
     }
     
-    # 确保数据格式正确
+    # 确保 Status 是字符型
     result$Status <- as.character(result$Status)
     
     # 订单信息（去重）
@@ -203,6 +204,7 @@ server <- function(input, output, session) {
                 tags$tr(
                   tags$th(style = "border-bottom: 2px solid #ccc; padding: 8px;", "商品图片"),
                   tags$th(style = "border-bottom: 2px solid #ccc; padding: 8px;", "SKU"),
+                  tags$th(style = "border-bottom: 2px solid #ccc; padding: 8px;", "商品名称"),
                   tags$th(style = "border-bottom: 2px solid #ccc; padding: 8px;", "商品状态")
                 )
               ),
@@ -219,6 +221,7 @@ server <- function(input, output, session) {
                     tags$td(style = "padding: 8px; border-bottom: 1px solid #eee; text-align: center;", 
                             tags$img(src = item_img_path, style = "max-width: 50px; height: auto; border-radius: 5px;")),
                     tags$td(style = "padding: 8px; border-bottom: 1px solid #eee;", item$SKU),
+                    tags$td(style = "padding: 8px; border-bottom: 1px solid #eee;", item$ItemName),
                     tags$td(style = "padding: 8px; border-bottom: 1px solid #eee;", item$Status)
                   )
                 })
