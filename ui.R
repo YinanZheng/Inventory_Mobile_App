@@ -41,7 +41,7 @@ ui <- f7Page(
         
         # 固定搜索框
         div(
-          style = "position: fixed; top: 80px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 10px 5px; border-bottom: 1px solid #ccc; display: flex; flex-direction: column; align-items: center;",
+          style = "position: fixed; top: 120px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 10px 5px; border-bottom: 1px solid #ccc; display: flex; flex-direction: column; align-items: center;",
           
           # 标题
           div(
