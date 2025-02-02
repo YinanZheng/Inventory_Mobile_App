@@ -50,7 +50,7 @@ ui <- f7Page(
         
         # 固定搜索框
         div(
-          style = "position: fixed; top: 85px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 5px 5px; border-bottom: 1px solid #ccc; display: flex; align-items: stretch;",
+          style = "position: fixed; top: 88px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 5px 5px; border-bottom: 1px solid #ccc; display: flex; align-items: stretch;",
           div(
             style = "flex: 1; min-width: 0;",
             f7Text(
