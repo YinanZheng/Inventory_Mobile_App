@@ -1,10 +1,19 @@
 server <- function(input, output, session) {
   con <- db_connection()  # 连接数据库
   
-  observeEvent(input$search_btn, {
-    req(input$search_sku)
+  # 防抖处理：用户输入后 500ms 才触发查询，减少数据库查询压力
+  debounce_search <- reactiveVal("")
+  
+  observe({
+    invalidateLater(500, session)  # **防抖延迟 500ms**
+    debounce_search(trimws(input$search_sku))
+  })
+  
+  # 监听 debounce_search 的变化，执行搜索
+  observe({
+    req(debounce_search())
     
-    search_query <- trimws(input$search_sku)
+    search_query <- debounce_search()
     
     query <- paste0("
       SELECT 
@@ -109,5 +118,10 @@ server <- function(input, output, session) {
         )
       })
     })
+  })
+  
+  # Disconnect from the database on app stop
+  onStop(function() {
+    dbDisconnect(con)
   })
 }

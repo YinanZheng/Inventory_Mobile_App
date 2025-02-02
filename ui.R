@@ -25,33 +25,18 @@ ui <- f7Page(
           style = "position: fixed; top: 50px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 10px; border-bottom: 1px solid #ccc; display: flex; align-items: center; gap: 10px;",
           
           div(
-            style = "flex: 4; min-width: 0;",  # 确保输入框按比例缩放
+            style = "flex: 1; min-width: 0;",  # 确保输入框按比例缩放
             f7Text(
               inputId = "search_sku",
-              label = NULL,
+              label = "商品搜索",
               placeholder = "输入 SKU / 物品名..."
-            )
-          ),
-          
-          div(
-            style = "flex: 1; min-width: 80px;",  # 确保按钮最小宽度
-            f7Button(
-              inputId = "search_btn",
-              label = "查询",
-              color = "blue",
-              fill = TRUE
             )
           )
         ),
         
-        # 占位符，避免内容被搜索框遮挡
-        div(
-          style = "height: 120px;"
-        ),
-        
         # 搜索结果区域
         div(
-          style = "padding: 10px; overflow-y: auto; max-height: calc(100vh - 150px);",
+          style = "padding: 10px; overflow-y: auto;",
           uiOutput("search_results")
         )
       ),
