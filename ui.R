@@ -26,12 +26,6 @@ ui <- f7Page(
           .list {
             margin: 0 !important;
             padding: 10px !important;
-          }
-          # /* 输入框样式调整 */
-          # .item-inner {
-          #   padding: 0 !important;
-          #   height: auto !important;
-          # }
           /* 输入框的实际内容 */
           .item-input-wrap {
             margin: 0 !important;
