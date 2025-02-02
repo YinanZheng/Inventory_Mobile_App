@@ -14,18 +14,22 @@ ui <- f7Page(
     # 添加 PWA 资源
     tags$head(
       tags$link(rel = "manifest", href = "www/manifest.webmanifest"),
+      
       tags$script(src = "www/service-worker.js"),
       tags$script(src = "www/quagga.min.js"),
+      tags$script(src = "www/scan.js"),
+      
       tags$meta(name = "apple-mobile-web-app-capable", content = "yes"),
       tags$meta(name = "apple-mobile-web-app-status-bar-style", content = "black-translucent"),
       tags$meta(name = "apple-mobile-web-app-title", content = "库存管理"),
+      
       tags$script(HTML("
         function startBarcodeScanner(inputId) {
           if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
             alert('此设备不支持摄像头扫码');
             return;
           }
-    
+      
           let scannerArea = document.createElement('div');
           scannerArea.style.position = 'fixed';
           scannerArea.style.top = '0';
@@ -36,46 +40,41 @@ ui <- f7Page(
           scannerArea.style.zIndex = '10000';
           scannerArea.innerHTML = '<video id=\"barcode-scanner\" style=\"width:100%; height:auto;\"></video>';
           document.body.appendChild(scannerArea);
-    
+      
           let video = document.getElementById('barcode-scanner');
-    
+      
           navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
             .then(stream => {
               video.srcObject = stream;
               video.setAttribute('playsinline', true);
               video.play();
-              
-              let track = stream.getVideoTracks()[0];
-    
-              let canvas = document.createElement('canvas');
-              let ctx = canvas.getContext('2d');
-    
-              function scanBarcode() {
-                if (!video.videoWidth) return requestAnimationFrame(scanBarcode);
-    
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    
-                let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                Quagga.decodeSingle({
-                  src: canvas.toDataURL(),
-                  numOfWorkers: 0,
-                  locate: true,
-                  inputStream: { size: 640 },
-                  decoder: { readers: ['ean_reader', 'code_128_reader'] }
-                }, function(result) {
-                  if (result && result.codeResult) {
-                    Shiny.setInputValue(inputId, result.codeResult.code);
-                    track.stop();
-                    document.body.removeChild(scannerArea);
-                  } else {
-                    requestAnimationFrame(scanBarcode);
-                  }
-                });
-              }
-    
-              scanBarcode();
+      
+              Quagga.init({
+                inputStream: {
+                  name: 'Live',
+                  type: 'LiveStream',
+                  target: video
+                },
+                decoder: {
+                  readers: ['ean_reader', 'code_128_reader']
+                }
+              }, function(err) {
+                if (err) {
+                  console.error('Quagga 初始化失败:', err);
+                  return;
+                }
+                Quagga.start();
+              });
+      
+              Quagga.onDetected(function(result) {
+                let code = result.codeResult.code;
+                Shiny.setInputValue(inputId, code);
+                
+                // ✅ 停止摄像头
+                stream.getTracks().forEach(track => track.stop());
+                Quagga.stop();
+                document.body.removeChild(scannerArea);
+              });
             })
             .catch(err => {
               alert('无法访问摄像头: ' + err);
