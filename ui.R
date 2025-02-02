@@ -101,7 +101,7 @@ ui <- f7Page(
       f7Tab(
         tabName = "商品查询",
         icon = f7Icon("tag"),
-
+        
         div(
           style = "background-color: #f7f7f8; padding: 10px 5px; border-bottom: 1px solid #ccc; display: flex; flex-direction: column; align-items: center;",
           
@@ -135,10 +135,10 @@ ui <- f7Page(
       f7Tab(
         tabName = "订单查询",
         icon = f7Icon("cube_box"),
-
+        
         div(
           style = "background-color: #f7f7f8; padding: 10px 5px; border-bottom: 1px solid #ccc; display: flex; flex-direction: column; align-items: center;",
-
+          
           # 标题
           div(
             style = "text-align: center; font-size: 20px; font-weight: bold; 
@@ -146,7 +146,7 @@ ui <- f7Page(
              width: 100%; max-width: 500px;",            
             "订单状态查询"
           ),
-
+          
           # 输入框
           div(
             style = "width: 100%; max-width: 500px;",
@@ -163,12 +163,13 @@ ui <- f7Page(
             label = "扫码输入",
             color = "blue",
             fill = TRUE
-        ),
-
-        # 搜索结果
-        div(
-          style = "min-height: 100vh; padding-bottom: 60px;",
-          uiOutput("order_search_results")
+          ),
+          
+          # 搜索结果
+          div(
+            style = "min-height: 100vh; padding-bottom: 60px;",
+            uiOutput("order_search_results")
+          )
         )
       )
     )
