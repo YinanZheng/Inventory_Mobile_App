@@ -15,9 +15,74 @@ ui <- f7Page(
     tags$head(
       tags$link(rel = "manifest", href = "www/manifest.webmanifest"),
       tags$script(src = "www/service-worker.js"),
+      tags$script(src = "www/quagga.min.js"),
       tags$meta(name = "apple-mobile-web-app-capable", content = "yes"),
       tags$meta(name = "apple-mobile-web-app-status-bar-style", content = "black-translucent"),
-      tags$meta(name = "apple-mobile-web-app-title", content = "库存管理")
+      tags$meta(name = "apple-mobile-web-app-title", content = "库存管理"),
+      tags$script(HTML("
+        function startBarcodeScanner(inputId) {
+          if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            alert('此设备不支持摄像头扫码');
+            return;
+          }
+    
+          let scannerArea = document.createElement('div');
+          scannerArea.style.position = 'fixed';
+          scannerArea.style.top = '0';
+          scannerArea.style.left = '0';
+          scannerArea.style.width = '100vw';
+          scannerArea.style.height = '100vh';
+          scannerArea.style.backgroundColor = 'rgba(0,0,0,0.7)';
+          scannerArea.style.zIndex = '10000';
+          scannerArea.innerHTML = '<video id=\"barcode-scanner\" style=\"width:100%; height:auto;\"></video>';
+          document.body.appendChild(scannerArea);
+    
+          let video = document.getElementById('barcode-scanner');
+    
+          navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+            .then(stream => {
+              video.srcObject = stream;
+              video.setAttribute('playsinline', true);
+              video.play();
+              
+              let track = stream.getVideoTracks()[0];
+    
+              let canvas = document.createElement('canvas');
+              let ctx = canvas.getContext('2d');
+    
+              function scanBarcode() {
+                if (!video.videoWidth) return requestAnimationFrame(scanBarcode);
+    
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    
+                let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                Quagga.decodeSingle({
+                  src: canvas.toDataURL(),
+                  numOfWorkers: 0,
+                  locate: true,
+                  inputStream: { size: 640 },
+                  decoder: { readers: ['ean_reader', 'code_128_reader'] }
+                }, function(result) {
+                  if (result && result.codeResult) {
+                    Shiny.setInputValue(inputId, result.codeResult.code);
+                    track.stop();
+                    document.body.removeChild(scannerArea);
+                  } else {
+                    requestAnimationFrame(scanBarcode);
+                  }
+                });
+              }
+    
+              scanBarcode();
+            })
+            .catch(err => {
+              alert('无法访问摄像头: ' + err);
+              document.body.removeChild(scannerArea);
+            });
+        }
+      "))
     ),
     
     # 全局样式优化
@@ -91,7 +156,14 @@ ui <- f7Page(
               label = NULL,
               placeholder = "输入 订单号 / 运单号..."
             )
-          )
+          ),
+          
+          # 扫码按钮
+          f7Button(
+            inputId = "scan_barcode_sku",
+            label = "扫码输入",
+            color = "blue",
+            fill = TRUE
         ),
 
         # 搜索结果

@@ -15,6 +15,14 @@ server <- function(input, output, session) {
     debounce_order_search(trimws(input$search_order_label))
   })
   
+  observeEvent(input$scan_barcode_sku, {
+    session$sendCustomMessage("startBarcodeScanner", "search_sku_item")
+  })
+  
+  observeEvent(input$scan_barcode_order, {
+    session$sendCustomMessage("startBarcodeScanner", "search_order_label")
+  })
+  
   # 监听 debounce_item_search 的变化，执行搜索
   observe({
     req(debounce_item_search())
