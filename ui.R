@@ -33,6 +33,7 @@ ui <- f7Page(
           style = "
             position: fixed; 
             top: 45px;  /* 向下移动，留出顶部空间 */
+            padding: 10px;
             left: 10px; 
             right: 10px; 
             z-index: 1000; 
@@ -51,7 +52,7 @@ ui <- f7Page(
         
         # 固定搜索框
         div(
-          style = "position: fixed; top: 80px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 5px 5px; border-bottom: 1px solid #ccc; display: flex; align-items: stretch;",
+          style = "position: fixed; top: 85px; left: 0; right: 0; z-index: 1000; background-color: #f7f7f8; padding: 5px 5px; border-bottom: 1px solid #ccc; display: flex; align-items: stretch;",
           div(
             style = "flex: 1; min-width: 0;",
             f7Text(
