@@ -58,10 +58,7 @@ ui <- f7Page(
           )
         ),
         
-        # 占位符，避免内容被搜索框遮挡
-        div(style = "height: 50px;"),
-        
-        # 让整个页面滚动，而不是搜索结果区域
+        # 搜索结果
         div(
           style = "min-height: 100vh; padding-bottom: 60px;",
           uiOutput("item_search_results")
@@ -93,10 +90,7 @@ ui <- f7Page(
           )
         ),
 
-        # 占位符，避免内容被搜索框遮挡
-        div(style = "height: 50px;"),
-
-        # 让整个页面滚动，而不是搜索结果区域
+        # 搜索结果
         div(
           style = "min-height: 100vh; padding-bottom: 60px;",
           uiOutput("order_search_results")
