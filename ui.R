@@ -88,7 +88,7 @@ ui <- f7Page(
 
         # # 固定搜索框
         div(
-          style = "position: fixed; top: 100px; left: 0; right: 0; z-index: 2000; background-color: #f7f7f8; padding: 10px 5px; border-bottom: 1px solid #ccc; display: flex; flex-direction: column; align-items: center;",
+          style = "left: 0; right: 0; z-index: 2000; background-color: #f7f7f8; padding: 10px 5px; border-bottom: 1px solid #ccc; display: flex; flex-direction: column; align-items: center;",
 
           # 标题
           div(
@@ -118,15 +118,15 @@ ui <- f7Page(
             )
           )
         ),
-        # 
-        # # 占位符，避免内容被搜索框遮挡
-        # div(style = "height: 100px;"),
-        # 
-        # # 让整个页面滚动，而不是搜索结果区域
-        # div(
-        #   style = "min-height: 100vh; padding-bottom: 60px;",
-        #   uiOutput("order_search_results")
-        # )
+
+        # 占位符，避免内容被搜索框遮挡
+        div(style = "height: 100px;"),
+
+        # 让整个页面滚动，而不是搜索结果区域
+        div(
+          style = "min-height: 100vh; padding-bottom: 60px;",
+          uiOutput("order_search_results")
+        )
       )
     )
   )
