@@ -32,7 +32,7 @@ ui <- f7Page(
         div(
           style = "
             position: fixed; 
-            top: 45px;  /* 向下移动，留出顶部空间 */
+            top: 42px;  /* 向下移动，留出顶部空间 */
             padding: 10px;
             left: 10px; 
             right: 10px; 
