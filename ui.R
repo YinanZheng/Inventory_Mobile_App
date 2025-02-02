@@ -20,17 +20,28 @@ ui <- f7Page(
         tabName = "商品搜索",
         icon = f7Icon("search"),
         
+        # 全局样式优化
         tags$style(HTML("
-          /* 调整 f7Text 输入框整体的外边距和内边距 */
-          .item-input {
-            margin: 0 !important;  /* 移除默认外边距 */
-            padding: 5px 10px !important;  /* 减小内边距 */
-            box-sizing: border-box;  /* 确保边框和内边距不会叠加 */
+          /* 移除输入框外层多余的边距 */
+          .list {
+            margin: 0 !important;
+            padding: 0 !important;
           }
-          /* 调整输入框容器的高度 */
+          /* 紧凑调整 item-content */
+          .item-content {
+            margin: 0 !important;
+            padding: 5px 0 !important; /* 减少上下空隙 */
+            box-sizing: border-box;
+          }
+          /* 输入框样式调整 */
           .item-inner {
-            padding: 0 !important; /* 减少内间距 */
-            height: auto !important; /* 自动适应高度 */
+            padding: 0 !important;
+            height: auto !important;
+          }
+          /* 输入框的实际内容 */
+          .item-input-wrap {
+            margin: 0 !important;
+            padding: 0 !important;
           }
         ")),
         
