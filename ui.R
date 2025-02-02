@@ -24,12 +24,12 @@ ui <- f7Page(
       tags$meta(name = "apple-mobile-web-app-title", content = "库存管理"),
       
       tags$script(HTML("
-        function startBarcodeScanner(inputId) {
+        Shiny.addCustomMessageHandler('startBarcodeScanner', function(inputId) {
           if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
             alert('此设备不支持摄像头扫码');
             return;
           }
-      
+    
           let scannerArea = document.createElement('div');
           scannerArea.style.position = 'fixed';
           scannerArea.style.top = '0';
@@ -40,15 +40,15 @@ ui <- f7Page(
           scannerArea.style.zIndex = '10000';
           scannerArea.innerHTML = '<video id=\"barcode-scanner\" style=\"width:100%; height:auto;\"></video>';
           document.body.appendChild(scannerArea);
-      
+    
           let video = document.getElementById('barcode-scanner');
-      
+    
           navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
             .then(stream => {
               video.srcObject = stream;
               video.setAttribute('playsinline', true);
               video.play();
-      
+    
               Quagga.init({
                 inputStream: {
                   name: 'Live',
@@ -65,11 +65,11 @@ ui <- f7Page(
                 }
                 Quagga.start();
               });
-      
+    
               Quagga.onDetected(function(result) {
                 let code = result.codeResult.code;
-                Shiny.setInputValue(inputId, code);
-                
+                Shiny.setInputValue(inputId, code, { priority: 'event' });
+    
                 // ✅ 停止摄像头
                 stream.getTracks().forEach(track => track.stop());
                 Quagga.stop();
@@ -80,7 +80,7 @@ ui <- f7Page(
               alert('无法访问摄像头: ' + err);
               document.body.removeChild(scannerArea);
             });
-        }
+        });
       "))
     ),
     
