@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERP系统（移动端）</title>
+
+    <!-- PWA 配置 -->
+    <link rel="manifest" href="manifest.webmanifest">
+    <script>
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("service-worker.js")
+                .then(reg => console.log("Service Worker 注册成功", reg))
+                .catch(err => console.error("Service Worker 注册失败", err));
+        }
+    </script>
+
+    <!-- 样式 -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h2>ERP系统（移动端）</h2>
+    <p>应用正在加载...</p>
+
+    <script>
+        // 直接跳转到 Shiny App
+        window.location.href = "/erp-mobile/";
+    </script>
+</body>
+</html>
