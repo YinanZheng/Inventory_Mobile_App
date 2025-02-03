@@ -1,11 +1,11 @@
 {
-  "name": "库存管理",
-  "short_name": "库存管理",
+  "name": "ERP系统（移动端）",
+  "short_name": "ERP",
   "start_url": "/erp-mobile/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#007bff",
-  "description": "库存管理系统的移动应用",
+  "description": "ERP系统的移动应用",
   "icons": [
     {
       "src": "https://www.goldenbeanllc.com/icons/icon-192x192.png",
