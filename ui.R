@@ -159,7 +159,7 @@ ui <- f7Page(
           
           # 扫码按钮
           f7Button(
-            inputId = "scan_barcode_sku",
+            inputId = "scan_barcode_order",
             label = "扫码输入",
             color = "blue",
             fill = TRUE
