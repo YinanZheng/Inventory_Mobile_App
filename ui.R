@@ -81,14 +81,15 @@ ui <- f7Page(
           let code = result.codeResult.code;
           console.log('扫码成功:', code);
 
-          // ✅ 发送扫码结果到 Shiny
+          // ✅ 发送扫码结果到 Shiny，并触发 showNotification
           Shiny.setInputValue(inputId, code, { priority: 'event' });
+          Shiny.setInputValue('scan_result_notification', '扫描成功: ' + code, { priority: 'event' });
 
           // ✅ 先停止 Quagga，再关闭摄像头
           Quagga.stop();
           setTimeout(() => {
             stopScanner(stream);
-          }, 500);  // 延迟 500ms 确保 Quagga 停止后摄像头再关闭
+          }, 500);
         });
 
         // ✅ 监听返回按钮，手动关闭摄像头
@@ -110,8 +111,6 @@ ui <- f7Page(
       });
   });
 "))
-      
-      
     ),
     
     # 全局样式优化

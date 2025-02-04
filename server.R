@@ -42,6 +42,8 @@ server <- function(input, output, session) {
     result <- dbGetQuery(con, query)
     
     if (nrow(result) == 0) {
+      showNotification("未找到相关商品", type = "warning")
+      output$order_search_results <- renderUI(NULL)
       return()
     }
     
