@@ -121,7 +121,15 @@ ui <- f7Page(
               label = NULL,
               placeholder = "输入 SKU / 物品名..."
             )
-          )
+          ),
+          
+          # 扫码按钮
+          f7Button(
+            inputId = "scan_barcode_sku",
+            label = "扫码查询",
+            color = "blue",
+            fill = TRUE
+          ),
         ),
         
         # 搜索结果
@@ -160,7 +168,7 @@ ui <- f7Page(
           # 扫码按钮
           f7Button(
             inputId = "scan_barcode_order",
-            label = "扫码输入",
+            label = "扫码查询",
             color = "blue",
             fill = TRUE
           ),
