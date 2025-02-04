@@ -15,9 +15,9 @@ ui <- f7Page(
     tags$head(
       tags$link(rel = "manifest", href = "www/manifest.webmanifest"),
       
-      tags$script(src = "www/service-worker.js"),
-      tags$script(src = "www/quagga.min.js"),
-      tags$script(src = "www/scan.js"),
+      tags$script(src = "https://www.goldenbeanllc.com/js/service-worker.js"),
+      tags$script(src = "https://www.goldenbeanllc.com/js/quagga.min.js"),
+      tags$script(src = "https://www.goldenbeanllc.com/js/scan.js"),
       
       tags$meta(name = "apple-mobile-web-app-capable", content = "yes"),
       tags$meta(name = "apple-mobile-web-app-status-bar-style", content = "black-translucent"),
