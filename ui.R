@@ -29,26 +29,33 @@ ui <- f7Page(
             alert('此设备不支持摄像头扫码');
             return;
           }
-    
+      
+          // ✅ 创建扫码界面（带返回按钮）
           let scannerArea = document.createElement('div');
           scannerArea.style.position = 'fixed';
           scannerArea.style.top = '0';
           scannerArea.style.left = '0';
           scannerArea.style.width = '100vw';
           scannerArea.style.height = '100vh';
-          scannerArea.style.backgroundColor = 'rgba(0,0,0,0.7)';
+          scannerArea.style.backgroundColor = 'rgba(0,0,0,0.8)';
           scannerArea.style.zIndex = '10000';
-          scannerArea.innerHTML = '<video id=\"barcode-scanner\" style=\"width:100%; height:auto;\"></video>';
+          scannerArea.innerHTML = `
+            <video id='barcode-scanner' style='width:100%; height:auto;'></video>
+            <button id='close-scanner' style='position: absolute; top: 20px; right: 20px; padding: 10px 20px; background-color: red; color: white; border: none; font-size: 16px; cursor: pointer;'>
+              返回
+            </button>
+          `;
           document.body.appendChild(scannerArea);
-    
+      
           let video = document.getElementById('barcode-scanner');
-    
+      
+          // ✅ 打开摄像头
           navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
             .then(stream => {
               video.srcObject = stream;
               video.setAttribute('playsinline', true);
               video.play();
-    
+      
               Quagga.init({
                 inputStream: {
                   name: 'Live',
@@ -65,18 +72,30 @@ ui <- f7Page(
                 }
                 Quagga.start();
               });
-    
+      
+              // ✅ 监听 Quagga 识别到的条形码
               Quagga.onDetected(function(result) {
                 let code = result.codeResult.code;
+                console.log('扫码成功:', code);
+      
+                // ✅ 将识别结果填充到正确的输入框
                 Shiny.setInputValue(inputId, code, { priority: 'event' });
-    
-                // ✅ 停止摄像头
-                stream.getTracks().forEach(track => track.stop());
+      
+                // ✅ 立即停止 Quagga 以防止多次触发
                 Quagga.stop();
+                stream.getTracks().forEach(track => track.stop());
                 document.body.removeChild(scannerArea);
               });
-            })
-            .catch(err => {
+      
+              // ✅ 监听返回按钮，手动关闭摄像头
+              document.getElementById('close-scanner').addEventListener('click', function() {
+                console.log('用户点击返回');
+                Quagga.stop();
+                stream.getTracks().forEach(track => track.stop());
+                document.body.removeChild(scannerArea);
+              });
+      
+            }).catch(err => {
               alert('无法访问摄像头: ' + err);
               document.body.removeChild(scannerArea);
             });
