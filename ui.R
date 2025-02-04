@@ -48,8 +48,8 @@ ui <- f7Page(
     document.body.appendChild(scannerArea);
 
     let video = document.getElementById('barcode-scanner');
+    let scanning = false;  // ✅ 防止重复扫码
 
-    // ✅ 打开摄像头
     navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
       .then(stream => {
         video.srcObject = stream;
@@ -75,25 +75,34 @@ ui <- f7Page(
 
         // ✅ 监听 Quagga 识别到的条形码
         Quagga.onDetected(function(result) {
+          if (scanning) return;  // ✅ 防止重复触发
+          scanning = true;
+
           let code = result.codeResult.code;
           console.log('扫码成功:', code);
 
-          // ✅ 将识别结果填充到正确的输入框
+          // ✅ 发送扫码结果到 Shiny
           Shiny.setInputValue(inputId, code, { priority: 'event' });
 
-          // ✅ 立即停止 Quagga 以防止多次触发
+          // ✅ 先停止 Quagga，再关闭摄像头
           Quagga.stop();
-          stream.getTracks().forEach(track => track.stop());
-          document.body.removeChild(scannerArea);
+          setTimeout(() => {
+            stopScanner(stream);
+          }, 500);  // 延迟 500ms 确保 Quagga 停止后摄像头再关闭
         });
 
         // ✅ 监听返回按钮，手动关闭摄像头
         document.getElementById('close-scanner').addEventListener('click', function() {
           console.log('用户点击返回');
-          Quagga.stop();
+          stopScanner(stream);
+        });
+
+        // ✅ 关闭摄像头的函数
+        function stopScanner(stream) {
+          console.log('关闭摄像头');
           stream.getTracks().forEach(track => track.stop());
           document.body.removeChild(scannerArea);
-        });
+        }
 
       }).catch(err => {
         alert('无法访问摄像头: ' + err);
@@ -101,6 +110,7 @@ ui <- f7Page(
       });
   });
 "))
+      
       
     ),
     
