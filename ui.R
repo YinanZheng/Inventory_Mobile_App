@@ -40,7 +40,7 @@ ui <- f7Page(
     scannerArea.style.backgroundColor = 'rgba(0,0,0,0.8)';
     scannerArea.style.zIndex = '10000';
     scannerArea.innerHTML = `
-      <video id='barcode-scanner' style='width:100%; height:50vh; display:block; margin: auto; object-fit: contain;'></video>
+      <video id='barcode-scanner' style='width:100%; height:30vh; display:block; margin: auto; object-fit: contain;'></video>
       <div style='position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); display: flex; gap: 15px;'>
         <button id='toggle-flash' style='min-width: 140px; padding: 12px 24px; background-color: #ffcc00; color: black; border: none; font-size: 16px; cursor: pointer; border-radius: 8px; text-align: center;'>
           开启照明
