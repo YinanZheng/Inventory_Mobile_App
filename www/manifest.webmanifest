@@ -20,7 +20,7 @@
   ],
   "scope": "/erp-mobile/",
   "serviceworker": {
-    "src": "/erp-mobile/www/service-worker.js",
+    "src": "https://www.goldenbeanllc.com/js/service-worker.js",
     "scope": "/erp-mobile/",
     "update_via_cache": "all"
   }
