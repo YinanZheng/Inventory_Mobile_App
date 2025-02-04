@@ -24,83 +24,84 @@ ui <- f7Page(
       tags$meta(name = "apple-mobile-web-app-title", content = "库存管理"),
       
       tags$script(HTML("
-        Shiny.addCustomMessageHandler('startBarcodeScanner', function(inputId) {
-          if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-            alert('此设备不支持摄像头扫码');
+  Shiny.addCustomMessageHandler('startBarcodeScanner', function(inputId) {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      alert('此设备不支持摄像头扫码');
+      return;
+    }
+
+    // ✅ 创建扫码界面（返回按钮放底部）
+    let scannerArea = document.createElement('div');
+    scannerArea.style.position = 'fixed';
+    scannerArea.style.top = '0';
+    scannerArea.style.left = '0';
+    scannerArea.style.width = '100vw';
+    scannerArea.style.height = '100vh';
+    scannerArea.style.backgroundColor = 'rgba(0,0,0,0.8)';
+    scannerArea.style.zIndex = '10000';
+    scannerArea.innerHTML = `
+      <video id='barcode-scanner' style='width:100%; height:auto; display:block; margin: auto;'></video>
+      <button id='close-scanner' style='position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); padding: 12px 24px; background-color: red; color: white; border: none; font-size: 16px; cursor: pointer; border-radius: 8px;'>
+        返回
+      </button>
+    `;
+    document.body.appendChild(scannerArea);
+
+    let video = document.getElementById('barcode-scanner');
+
+    // ✅ 打开摄像头
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+      .then(stream => {
+        video.srcObject = stream;
+        video.setAttribute('playsinline', true);
+        video.play();
+
+        Quagga.init({
+          inputStream: {
+            name: 'Live',
+            type: 'LiveStream',
+            target: video
+          },
+          decoder: {
+            readers: ['ean_reader', 'code_128_reader']
+          }
+        }, function(err) {
+          if (err) {
+            console.error('Quagga 初始化失败:', err);
             return;
           }
-      
-          // ✅ 创建扫码界面（带返回按钮）
-          let scannerArea = document.createElement('div');
-          scannerArea.style.position = 'fixed';
-          scannerArea.style.top = '0';
-          scannerArea.style.left = '0';
-          scannerArea.style.width = '100vw';
-          scannerArea.style.height = '100vh';
-          scannerArea.style.backgroundColor = 'rgba(0,0,0,0.8)';
-          scannerArea.style.zIndex = '10000';
-          scannerArea.innerHTML = `
-            <video id='barcode-scanner' style='width:100%; height:auto;'></video>
-            <button id='close-scanner' style='position: absolute; top: 20px; right: 20px; padding: 10px 20px; background-color: red; color: white; border: none; font-size: 16px; cursor: pointer;'>
-              返回
-            </button>
-          `;
-          document.body.appendChild(scannerArea);
-      
-          let video = document.getElementById('barcode-scanner');
-      
-          // ✅ 打开摄像头
-          navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-            .then(stream => {
-              video.srcObject = stream;
-              video.setAttribute('playsinline', true);
-              video.play();
-      
-              Quagga.init({
-                inputStream: {
-                  name: 'Live',
-                  type: 'LiveStream',
-                  target: video
-                },
-                decoder: {
-                  readers: ['ean_reader', 'code_128_reader']
-                }
-              }, function(err) {
-                if (err) {
-                  console.error('Quagga 初始化失败:', err);
-                  return;
-                }
-                Quagga.start();
-              });
-      
-              // ✅ 监听 Quagga 识别到的条形码
-              Quagga.onDetected(function(result) {
-                let code = result.codeResult.code;
-                console.log('扫码成功:', code);
-      
-                // ✅ 将识别结果填充到正确的输入框
-                Shiny.setInputValue(inputId, code, { priority: 'event' });
-      
-                // ✅ 立即停止 Quagga 以防止多次触发
-                Quagga.stop();
-                stream.getTracks().forEach(track => track.stop());
-                document.body.removeChild(scannerArea);
-              });
-      
-              // ✅ 监听返回按钮，手动关闭摄像头
-              document.getElementById('close-scanner').addEventListener('click', function() {
-                console.log('用户点击返回');
-                Quagga.stop();
-                stream.getTracks().forEach(track => track.stop());
-                document.body.removeChild(scannerArea);
-              });
-      
-            }).catch(err => {
-              alert('无法访问摄像头: ' + err);
-              document.body.removeChild(scannerArea);
-            });
+          Quagga.start();
         });
-      "))
+
+        // ✅ 监听 Quagga 识别到的条形码
+        Quagga.onDetected(function(result) {
+          let code = result.codeResult.code;
+          console.log('扫码成功:', code);
+
+          // ✅ 将识别结果填充到正确的输入框
+          Shiny.setInputValue(inputId, code, { priority: 'event' });
+
+          // ✅ 立即停止 Quagga 以防止多次触发
+          Quagga.stop();
+          stream.getTracks().forEach(track => track.stop());
+          document.body.removeChild(scannerArea);
+        });
+
+        // ✅ 监听返回按钮，手动关闭摄像头
+        document.getElementById('close-scanner').addEventListener('click', function() {
+          console.log('用户点击返回');
+          Quagga.stop();
+          stream.getTracks().forEach(track => track.stop());
+          document.body.removeChild(scannerArea);
+        });
+
+      }).catch(err => {
+        alert('无法访问摄像头: ' + err);
+        document.body.removeChild(scannerArea);
+      });
+  });
+"))
+      
     ),
     
     # 全局样式优化
