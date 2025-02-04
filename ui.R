@@ -30,7 +30,7 @@ ui <- f7Page(
       return;
     }
 
-    // ✅ 创建扫码界面（扫码框高度优化，返回按钮放底部）
+    // ✅ 创建扫码界面（优化按钮宽度）
     let scannerArea = document.createElement('div');
     scannerArea.style.position = 'fixed';
     scannerArea.style.top = '0';
@@ -42,10 +42,10 @@ ui <- f7Page(
     scannerArea.innerHTML = `
       <video id='barcode-scanner' style='width:100%; height:60vh; display:block; margin: auto; object-fit: contain;'></video>
       <div style='position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); display: flex; gap: 15px;'>
-        <button id='toggle-flash' style='padding: 10px 20px; background-color: #ffcc00; color: black; border: none; font-size: 16px; cursor: pointer; border-radius: 8px;'>
+        <button id='toggle-flash' style='min-width: 140px; padding: 12px 24px; background-color: #ffcc00; color: black; border: none; font-size: 16px; cursor: pointer; border-radius: 8px; text-align: center;'>
           开启照明
         </button>
-        <button id='close-scanner' style='padding: 10px 20px; background-color: red; color: white; border: none; font-size: 16px; cursor: pointer; border-radius: 8px;'>
+        <button id='close-scanner' style='min-width: 140px; padding: 12px 24px; background-color: red; color: white; border: none; font-size: 16px; cursor: pointer; border-radius: 8px; text-align: center;'>
           返回
         </button>
       </div>
@@ -142,8 +142,7 @@ ui <- f7Page(
       });
   });
 "))
-      
-      
+    
     ),
     
     # 全局样式优化
