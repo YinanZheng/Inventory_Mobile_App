@@ -30,7 +30,7 @@ ui <- f7Page(
       return;
     }
 
-    // ✅ 创建扫码界面（返回按钮放底部，扫码框高度降低）
+    // ✅ 创建扫码界面（扫码框高度优化，返回按钮放底部）
     let scannerArea = document.createElement('div');
     scannerArea.style.position = 'fixed';
     scannerArea.style.top = '0';
@@ -40,45 +40,47 @@ ui <- f7Page(
     scannerArea.style.backgroundColor = 'rgba(0,0,0,0.8)';
     scannerArea.style.zIndex = '10000';
     scannerArea.innerHTML = `
-      <div style='position: absolute; top: 30%; left: 50%; transform: translate(-50%, -50%); width: 80vw; height: 20vh; border: 4px solid red; border-radius: 8px;'></div>
-      <video id='barcode-scanner' style='position: absolute; top: 30%; left: 50%; transform: translate(-50%, -50%); width: 80vw; height: 20vh; object-fit: cover;'></video>
-      <button id='close-scanner' style='position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); padding: 12px 24px; background-color: red; color: white; border: none; font-size: 16px; cursor: pointer; border-radius: 8px;'>
-        返回
-      </button>
+      <video id='barcode-scanner' style='width:100%; height:60vh; display:block; margin: auto; object-fit: contain;'></video>
+      <div style='position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); display: flex; gap: 15px;'>
+        <button id='toggle-flash' style='padding: 10px 20px; background-color: #ffcc00; color: black; border: none; font-size: 16px; cursor: pointer; border-radius: 8px;'>
+          开启照明
+        </button>
+        <button id='close-scanner' style='padding: 10px 20px; background-color: red; color: white; border: none; font-size: 16px; cursor: pointer; border-radius: 8px;'>
+          返回
+        </button>
+      </div>
     `;
     document.body.appendChild(scannerArea);
 
     let video = document.getElementById('barcode-scanner');
+    let flashEnabled = false; // ✅ 记录闪光灯状态
     let scanning = false;  // ✅ 防止重复扫码
+    let streamRef = null;  // ✅ 存储摄像头流，方便控制闪光灯
 
     navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
       .then(stream => {
         video.srcObject = stream;
         video.setAttribute('playsinline', true);
         video.play();
+        streamRef = stream;
 
         Quagga.init({
           inputStream: {
             name: 'Live',
             type: 'LiveStream',
-            target: video,
-            constraints: {
-              width: 640,
-              height: 200  // ✅ 让摄像头视野变窄
-            }
+            target: video
           },
           decoder: {
             readers: ['ean_reader', 'code_128_reader']
           },
-          locator: {
-            patchSize: 'medium', // ✅ 限制 `Quagga` 识别区域
-            halfSample: true
-          },
+          locate: true,
+          halfSample: false, // ✅ 关闭 halfSample，提高识别率
+          multiple: false, // ✅ 只识别一个条码，防止误识别
           area: {
-            top: '40%',    // ✅ 限制识别区域在中间
+            top: '10%',    // ✅ 让 Quagga 识别整个中间部分
             right: '10%',
-            left: '10%',
-            bottom: '60%'
+            bottom: '90%',
+            left: '10%'
           }
         }, function(err) {
           if (err) {
@@ -103,20 +105,34 @@ ui <- f7Page(
           // ✅ 先停止 Quagga，再关闭摄像头
           Quagga.stop();
           setTimeout(() => {
-            stopScanner(stream);
+            stopScanner();
           }, 500);
         });
 
         // ✅ 监听返回按钮，手动关闭摄像头
         document.getElementById('close-scanner').addEventListener('click', function() {
           console.log('用户点击返回');
-          stopScanner(stream);
+          stopScanner();
+        });
+
+        // ✅ 监听闪光灯按钮
+        document.getElementById('toggle-flash').addEventListener('click', function() {
+          let tracks = streamRef.getVideoTracks();
+          if (tracks.length > 0 && tracks[0].getCapabilities().torch) {
+            flashEnabled = !flashEnabled;
+            tracks[0].applyConstraints({ advanced: [{ torch: flashEnabled }] });
+            this.textContent = flashEnabled ? '关闭照明' : '开启照明';
+          } else {
+            alert('此设备不支持闪光灯控制');
+          }
         });
 
         // ✅ 关闭摄像头的函数
-        function stopScanner(stream) {
+        function stopScanner() {
           console.log('关闭摄像头');
-          stream.getTracks().forEach(track => track.stop());
+          if (streamRef) {
+            streamRef.getTracks().forEach(track => track.stop());
+          }
           document.body.removeChild(scannerArea);
         }
 
@@ -126,6 +142,7 @@ ui <- f7Page(
       });
   });
 "))
+      
       
     ),
     

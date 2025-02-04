@@ -23,6 +23,10 @@ server <- function(input, output, session) {
     session$sendCustomMessage("startBarcodeScanner", "search_order_label")
   })
   
+  observeEvent(input$scan_result_notification, {
+    showNotification(input$scan_result_notification, type = "message", duration = 5)
+  })
+  
   # 监听 debounce_item_search 的变化，执行搜索
   observe({
     req(debounce_item_search())
