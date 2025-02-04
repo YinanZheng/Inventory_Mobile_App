@@ -30,7 +30,7 @@ ui <- f7Page(
       return;
     }
 
-    // ✅ 创建扫码界面（返回按钮放底部）
+    // ✅ 创建扫码界面（返回按钮放底部，扫码框高度降低）
     let scannerArea = document.createElement('div');
     scannerArea.style.position = 'fixed';
     scannerArea.style.top = '0';
@@ -40,7 +40,8 @@ ui <- f7Page(
     scannerArea.style.backgroundColor = 'rgba(0,0,0,0.8)';
     scannerArea.style.zIndex = '10000';
     scannerArea.innerHTML = `
-      <video id='barcode-scanner' style='width:100%; height:auto; display:block; margin: auto;'></video>
+      <div style='position: absolute; top: 30%; left: 50%; transform: translate(-50%, -50%); width: 80vw; height: 20vh; border: 4px solid red; border-radius: 8px;'></div>
+      <video id='barcode-scanner' style='position: absolute; top: 30%; left: 50%; transform: translate(-50%, -50%); width: 80vw; height: 20vh; object-fit: cover;'></video>
       <button id='close-scanner' style='position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); padding: 12px 24px; background-color: red; color: white; border: none; font-size: 16px; cursor: pointer; border-radius: 8px;'>
         返回
       </button>
@@ -60,10 +61,24 @@ ui <- f7Page(
           inputStream: {
             name: 'Live',
             type: 'LiveStream',
-            target: video
+            target: video,
+            constraints: {
+              width: 640,
+              height: 200  // ✅ 让摄像头视野变窄
+            }
           },
           decoder: {
             readers: ['ean_reader', 'code_128_reader']
+          },
+          locator: {
+            patchSize: 'medium', // ✅ 限制 `Quagga` 识别区域
+            halfSample: true
+          },
+          area: {
+            top: '40%',    // ✅ 限制识别区域在中间
+            right: '10%',
+            left: '10%',
+            bottom: '60%'
           }
         }, function(err) {
           if (err) {
@@ -111,6 +126,7 @@ ui <- f7Page(
       });
   });
 "))
+      
     ),
     
     # 全局样式优化
