@@ -3,8 +3,9 @@ const urlsToCache = [
   "/erp-mobile/",
   "/erp-mobile/index.html",
   "/erp-mobile/www/manifest.webmanifest",
-  "/erp-mobile/www/quagga.min.js",
-  "/erp-mobile/www/scan.js",
+  "/js/quagga.min.js",
+  "/js/scan.js",     
+  "/js/service-worker.js"  
 ];
 
 self.addEventListener("install", (event) => {
