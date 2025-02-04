@@ -30,7 +30,7 @@ ui <- f7Page(
       return;
     }
 
-    // ✅ 创建扫码界面（优化为横向条形码布局）
+    // ✅ 创建扫码界面（优化横屏布局和位置）
     let scannerArea = document.createElement('div');
     scannerArea.style.position = 'fixed';
     scannerArea.style.top = '0';
@@ -40,7 +40,7 @@ ui <- f7Page(
     scannerArea.style.backgroundColor = 'rgba(0,0,0,0.8)';
     scannerArea.style.zIndex = '10000';
     scannerArea.innerHTML = `
-      <video id='barcode-scanner' style='width:100%; height:30vh; display:block; margin: auto; object-fit: contain;'></video>
+      <video id='barcode-scanner' style='width:100%; height:25vh; display:block; margin: auto; margin-top: 25vh; object-fit: contain;'></video>
       <div style='position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); display: flex; gap: 15px;'>
         <button id='toggle-flash' style='min-width: 140px; padding: 12px 24px; background-color: #ffcc00; color: black; border: none; font-size: 16px; cursor: pointer; border-radius: 8px; text-align: center;'>
           开启照明
@@ -81,10 +81,10 @@ ui <- f7Page(
           locate: true,
           halfSample: false, // 高分辨率模式
           area: {
-            top: '45%',   // 限制 Quagga 只扫描水平中间区域
-            right: '10%',
-            bottom: '55%',
-            left: '10%'
+            top: '50%',   // 仅扫描中间部分
+            right: '15%',
+            bottom: '70%',
+            left: '15%'
           },
           frequency: 15, // 提高检测频率
         }, function(err) {
@@ -147,6 +147,7 @@ ui <- f7Page(
       });
   });
 "))
+      
   
       
     
