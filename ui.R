@@ -30,7 +30,7 @@ ui <- f7Page(
       return;
     }
 
-    // ✅ 创建扫码界面（优化横屏布局和位置）
+    // ✅ 创建扫码界面（宽度左右贴边）
     let scannerArea = document.createElement('div');
     scannerArea.style.position = 'fixed';
     scannerArea.style.top = '0';
@@ -40,7 +40,7 @@ ui <- f7Page(
     scannerArea.style.backgroundColor = 'rgba(0,0,0,0.8)';
     scannerArea.style.zIndex = '10000';
     scannerArea.innerHTML = `
-      <video id='barcode-scanner' style='width:100%; height:25vh; display:block; margin: auto; margin-top: 25vh; object-fit: contain;'></video>
+      <video id='barcode-scanner' style='width:100%; height:25vh; display:block; margin: auto; margin-top: 35vh; object-fit: contain;'></video>
       <div style='position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); display: flex; gap: 15px;'>
         <button id='toggle-flash' style='min-width: 140px; padding: 12px 24px; background-color: #ffcc00; color: black; border: none; font-size: 16px; cursor: pointer; border-radius: 8px; text-align: center;'>
           开启照明
@@ -81,10 +81,10 @@ ui <- f7Page(
           locate: true,
           halfSample: false, // 高分辨率模式
           area: {
-            top: '50%',   // 仅扫描中间部分
-            right: '15%',
-            bottom: '70%',
-            left: '15%'
+            top: '0%',   // 扫描区域顶部距离视频顶部 0%
+            right: '0%', // 扫描区域右侧距离视频右侧 0%
+            bottom: '100%', // 扫描区域底部距离视频底部 0%
+            left: '0%'   // 扫描区域左侧距离视频左侧 0%
           },
           frequency: 15, // 提高检测频率
         }, function(err) {
