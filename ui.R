@@ -30,7 +30,7 @@ ui <- f7Page(
       return;
     }
 
-    // ✅ 创建扫码界面
+    // ✅ 创建扫码界面（优化为横向条形码布局）
     let scannerArea = document.createElement('div');
     scannerArea.style.position = 'fixed';
     scannerArea.style.top = '0';
@@ -75,15 +75,15 @@ ui <- f7Page(
             }
           },
           decoder: {
-            readers: ['code_128_reader'], // 支持多种条形码格式
+            readers: ['code_128_reader'], // 仅支持 Code 128 条码
             multiple: false // 只识别一个条码
           },
           locate: true,
           halfSample: false, // 高分辨率模式
           area: {
-            top: '30%',   // 限制 Quagga 只扫描视频的中间部分
+            top: '45%',   // 限制 Quagga 只扫描水平中间区域
             right: '10%',
-            bottom: '70%',
+            bottom: '55%',
             left: '10%'
           },
           frequency: 15, // 提高检测频率
@@ -147,6 +147,7 @@ ui <- f7Page(
       });
   });
 "))
+  
       
     
     ),
