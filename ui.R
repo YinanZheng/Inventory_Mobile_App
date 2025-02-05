@@ -30,7 +30,7 @@ ui <- f7Page(
       return;
     }
 
-    // ✅ 创建扫码界面
+    // ✅ 创建扫码界面（优化按钮宽度）
     let scannerArea = document.createElement('div');
     scannerArea.style.position = 'fixed';
     scannerArea.style.top = '0';
@@ -40,7 +40,7 @@ ui <- f7Page(
     scannerArea.style.backgroundColor = 'rgba(0,0,0,0.8)';
     scannerArea.style.zIndex = '10000';
     scannerArea.innerHTML = `
-      <video id='barcode-scanner' style='width:100%; height:50vh; display:block; margin: auto; object-fit: contain;'></video>
+      <video id='barcode-scanner' style='width:100%; height:60vh; display:block; margin: auto; object-fit: contain;'></video>
       <div style='position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); display: flex; gap: 15px;'>
         <button id='toggle-flash' style='min-width: 140px; padding: 12px 24px; background-color: #ffcc00; color: black; border: none; font-size: 16px; cursor: pointer; border-radius: 8px; text-align: center;'>
           开启照明
@@ -53,9 +53,9 @@ ui <- f7Page(
     document.body.appendChild(scannerArea);
 
     let video = document.getElementById('barcode-scanner');
-    let flashEnabled = false;  // 记录闪光灯状态
-    let scanning = false;  // 防止重复扫码
-    let streamRef = null;  // 存储摄像头流，方便控制闪光灯
+    let flashEnabled = false; // ✅ 记录闪光灯状态
+    let scanning = false;  // ✅ 防止重复扫码
+    let streamRef = null;  // ✅ 存储摄像头流，方便控制闪光灯
 
     navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
       .then(stream => {
@@ -68,25 +68,20 @@ ui <- f7Page(
           inputStream: {
             name: 'Live',
             type: 'LiveStream',
-            target: video,
-            constraints: {
-              width: 1280, // 提高视频分辨率
-              height: 720
-            }
+            target: video
           },
           decoder: {
-            readers: ['code_128_reader'], // 支持多种条形码格式
-            multiple: false // 只识别一个条码
+            readers: ['ean_reader', 'code_128_reader']
           },
           locate: true,
-          halfSample: false, // 高分辨率模式
+          halfSample: false, // ✅ 关闭 halfSample，提高识别率
+          multiple: false, // ✅ 只识别一个条码，防止误识别
           area: {
-            top: '30%',   // 限制 Quagga 只扫描视频的中间部分
+            top: '10%',    // ✅ 让 Quagga 识别整个中间部分
             right: '10%',
-            bottom: '70%',
+            bottom: '90%',
             left: '10%'
-          },
-          frequency: 15, // 提高检测频率
+          }
         }, function(err) {
           if (err) {
             console.error('Quagga 初始化失败:', err);
@@ -97,7 +92,7 @@ ui <- f7Page(
 
         // ✅ 监听 Quagga 识别到的条形码
         Quagga.onDetected(function(result) {
-          if (scanning) return;  // 防止重复触发
+          if (scanning) return;  // ✅ 防止重复触发
           scanning = true;
 
           let code = result.codeResult.code;
@@ -147,7 +142,6 @@ ui <- f7Page(
       });
   });
 "))
-      
     
     ),
     
