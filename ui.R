@@ -40,7 +40,7 @@ ui <- f7Page(
     scannerArea.style.backgroundColor = 'rgba(0,0,0,0.8)';
     scannerArea.style.zIndex = '10000';
     scannerArea.innerHTML = `
-      <video id='barcode-scanner' style='width:100%; height:60vh; display:block; margin: auto; margin-top: 35vh; object-fit: contain;'></video>
+      <video id='barcode-scanner' style='width:100%; height:60vh; display:block; margin: auto; margin-top: 10vh; object-fit: contain;'></video>
       <div style='position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); display: flex; gap: 15px;'>
         <button id='toggle-flash' style='min-width: 140px; padding: 12px 24px; background-color: #ffcc00; color: black; border: none; font-size: 16px; cursor: pointer; border-radius: 8px; text-align: center;'>
           开启照明
@@ -68,10 +68,14 @@ ui <- f7Page(
           inputStream: {
             name: 'Live',
             type: 'LiveStream',
-            target: video
+            target: video,
+            constraints: {
+              width: 1280, // 提高视频分辨率
+              height: 720
+            }
           },
           decoder: {
-            readers: ['ean_reader', 'code_128_reader']
+            readers: ['code_128_reader']
           },
           locate: true,
           halfSample: false, // ✅ 关闭 halfSample，提高识别率
@@ -81,7 +85,8 @@ ui <- f7Page(
             right: '10%',
             bottom: '90%',
             left: '10%'
-          }
+          },
+          frequency: 15, // 提高检测频率
         }, function(err) {
           if (err) {
             console.error('Quagga 初始化失败:', err);
